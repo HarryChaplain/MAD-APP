@@ -1,5 +1,21 @@
 <ion-view view-title="Post">
-  <ion-content>
-    <h1>Post</h1>
+  <ion-content padding="true">
+    <form>
+      <label class="item item-input">
+          <input type="email" placeholder="Recipient (To)" ng-model="recipient">
+      </label>
+      <label class="item item-input">
+          <input type="text" placeholder="Subject" ng-model="subject">
+      </label>
+      <label class="item item-input">
+          <textarea type="text" rows="5" cols="5" placeholder="Message" ng-model="message"></textarea>
+      </label>
+      <div class="button-bar padding-top">
+        <a class="button button-positive">Speech to Text</a>
+        <a class="button button-positive">Text to Speech</a>
+      </div>
+      <button class="button button-block button-positive">Post</button>
+
+  <form>
   </ion-content>
 </ion-view>

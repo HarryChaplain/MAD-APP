@@ -1,29 +1,13 @@
 angular.module('starter.controllers', [])
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
-
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
-
-
-
-
 })
 
-.controller('ListsCtrl', function($scope) {
-  $scope.items = [
-    { title: 'Item 1', id: 1 },
-    { title: 'Item 2', id: 2 },
-    { title: 'Item 3', id: 3 },
-    { title: 'Item 4', id: 4 },
-    { title: 'Item 5', id: 5 },
-    { title: 'Item 6', id: 6 }
-  ];
+.controller('PostCtrl', function($scope) {
 })
 
-.controller('ItemCtrl', function($scope, $stateParams) {
+.controller('SetupCtrl', function($scope) {
+})
+
+.controller('SettingsCtrl', function($scope) {
 });
