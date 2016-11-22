@@ -1,6 +1,11 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, $state) {
+
+  $scope.goPost = function(){
+    $state.go('app.post');
+  };
+
 })
 
 .controller('PostCtrl', function($scope) {
