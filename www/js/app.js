@@ -32,50 +32,31 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     controller: 'AppCtrl'
   })
 
-  .state('app.facebook', {
-    url: '/facebook',
+  .state('app.post', {
+    url: '/post',
     views: {
       'menuContent': {
-        templateUrl: 'templates/facebook.html'
+        templateUrl: 'templates/post.html'
       }
     }
   })
-  .state('app.twitter', {
-      url: '/twitter',
+  .state('app.setup', {
+      url: '/setup',
       views: {
         'menuContent': {
-          templateUrl: 'templates/twitter.html'
+          templateUrl: 'templates/setup.html'
         }
       }
     })
 
-  .state('app.gmail', {
-      url: '/gmail',
+  .state('app.settings', {
+      url: '/settings',
       views: {
         'menuContent': {
-          templateUrl: 'templates/gmail.html'
+          templateUrl: 'templates/settings.html'
         }
       }
-    })
-    .state('app.lists', {
-      url: '/lists',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/lists.html',
-          controller: 'ListsCtrl'
-        }
-      }
-    })
-
-  .state('app.item', {
-    url: '/lists/:itemId',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/item.html',
-        controller: 'ItemCtrl'
-      }
-    }
-  });
+    });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/facebook');
+  $urlRouterProvider.otherwise('/app/post');
 });
