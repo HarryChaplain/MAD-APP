@@ -1,14 +1,16 @@
 <ion-view view-title="Set-Up">
   <ion-content>
     <ul class="list">
+      <!-- I think we need to make these more dynamic (e.g. ng-repeat socialMedia button) -->
       <div class="item item-divider padding">
         Login to enable posting to <br>
         that social media:
       </div>
       <li class="item item-button-right item-icon-left">
-        Facebook
+        Facebook <p>{{username}}</p>
         <i class="icon ion-social-facebook"></i>
-        <button class="button button-positive facebookLoginButton" ng-click="loginToFacebook()">Login</button>
+        <button class="button button-positive facebookLoginButton" ng-hide="loggedIn" ng-click="loginToFacebook()">Login</button>
+        <button class="button button-assertive facebookLogout" ng-show="loggedIn" ng-click="logoutOfFacebook()">Logout</button>
       </li>
       <li class="item item-button-right item-icon-left">
         Twitter
