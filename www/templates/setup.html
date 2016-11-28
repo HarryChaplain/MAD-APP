@@ -12,15 +12,36 @@
         <button class="button button-positive facebookLoginButton" ng-hide="loggedIn" ng-click="loginToFacebook()">Login</button>
         <button class="button button-assertive facebookLogout" ng-show="loggedIn" ng-click="logoutOfFacebook()">Logout</button>
       </li>
+      
+      <!-- Twitter Login Setup -->
       <li class="item item-button-right item-icon-left">
-        Twitter
+        Twitter <p>{{twitterToken.screen_name}}</p>
         <i class="icon ion-social-twitter"></i>
-        <button class="button button-positive">Login</button>
+        <button class="button button-positive" ng-show="twitterToken === '' || twitterToken === null" ng-click="loginToTwitter()">
+          Login
+        </button>
+        <button class="button button-positive" ng-hide="twitterToken === '' || twitterToken === null" ng-click="logoutOfTwitter()">
+          Logout
+        </button>
       </li>
+      
+      <!-- Dropbox Login Setup -->
+      <li class="item item-button-right item-icon-left">
+        Dropbox <p ng-hide="dropboxToken === '' || dropboxToken === null">User ID: {{dropboxToken.uid}}</p>
+        <i class="icon ion-social-dropbox"></i>
+        <button class="button button-positive" ng-show="dropboxToken === '' || dropboxToken === null" ng-click="loginToDropbox()">
+          Login
+        </button>
+        <button class="button button-positive" ng-hide="dropboxToken === '' || dropboxToken === null" ng-click="logoutOfDropbox()">
+          Logout
+        </button>
+      </li>
+      
       <li class="item item-button-right item-icon-left">
         Google+
         <i class="icon ion-social-googleplus"></i>
         <button class="button button-positive">Login</button>
       </li>
+	 </ul>
   </ion-content>
 </ion-view>
