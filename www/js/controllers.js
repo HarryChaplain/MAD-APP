@@ -10,19 +10,44 @@ angular.module('starter.controllers', [])
 
 .controller('PostCtrl', function($scope, $cordovaEmailComposer) {
 
+  //data object of post data
+  $scope.postData = {
+    to: "",
+    subject: "",
+    body: "",
+    isHtml: true
+  };
 
+  //speaks text in message field
+  $scope.speakText = function() {
+    TTS.speak({
+          text: $scope.postData.body,
+          locale: 'en-GB',
+          rate: 1.5
+      }, function () {
+          // Do Something after success
+      }, function (reason) {
+          // Handle the error case
+      });
+  };
 
-  $scope.post = function(recipient, subject, message) {
+  //records voice into message field
+  $scope.record = function() {
+    var recognition = new SpeechRecognition();
+    recognition.onresult = function(event) {
+         if (event.results.length > 0) {
+             $scope.postData.body = event.results[0][0].transcript;
+             $scope.$apply()
+         }
+     };
+     recognition.start();
+  };
 
-    var post = {
-      to: recipient,
-      subject: subject,
-      body: message,
-      isHtml: true
-    };
+  //posts to social media and email
+  $scope.post = function() {
 
-    cordova.plugins.email.open(post);
-    }
+    cordova.plugins.email.open($scope.postData);
+  }
 
 
 

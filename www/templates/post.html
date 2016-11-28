@@ -2,19 +2,19 @@
   <ion-content padding="true">
     <form>
       <label class="item item-input">
-          <input type="email" placeholder="Recipient (To)" ng-model="recipient">
+          <input type="email" placeholder="Recipient (To)" ng-model="postData.to">
       </label>
       <label class="item item-input">
-          <input type="text" placeholder="Subject" ng-model="subject">
+          <input type="text" placeholder="Subject" ng-model="postData.subject">
       </label>
       <label class="item item-input">
-          <textarea type="text" rows="5" cols="5" placeholder="Message" ng-model="message"></textarea>
+          <textarea type="text" rows="5" cols="5" placeholder="Message" ng-model="postData.body"></textarea>
       </label>
       <div class="button-bar padding-top">
-        <a class="button button-positive">Speech to Text</a>
-        <a class="button button-positive">Text to Speech</a>
+        <a class="button button-positive" ng-click="record()">Speech to Text</a>
+        <a class="button button-positive" ng-click="speakText()">Text to Speech</a>
       </div>
-      <button class="button button-block button-positive" ng-click="post(recipient, subject, message)">Post</button>
+      <button class="button button-block button-positive" ng-click="post()">Post</button>
 
   <form>
   </ion-content>

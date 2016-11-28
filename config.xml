@@ -80,4 +80,6 @@
         <variable name="APP_ID" value="1318210328221123" />
         <variable name="APP_NAME" value="ionicAuthentication" />
     </plugin>
+    <plugin name="cordova-plugin-tts" spec="~0.2.3" />
+    <plugin name="org.apache.cordova.speech.speechrecognition" spec="https://github.com/macdonst/SpeechRecognitionPlugin" />
 </widget>
