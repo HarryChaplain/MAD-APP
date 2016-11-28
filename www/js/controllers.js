@@ -8,21 +8,38 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('PostCtrl', function($scope) {
+.controller('PostCtrl', function($scope, $cordovaEmailComposer) {
+
+
+
+  $scope.post = function(recipient, subject, message) {
+
+    var post = {
+      to: recipient,
+      subject: subject,
+      body: message,
+      isHtml: true
+    };
+
+    cordova.plugins.email.open(post);
+    }
+
+
+
 })
 
 .controller('SetupCtrl', function($scope, $cordovaOauth, $twitterApi, $http) {
-  
+
   //twitter & dropbox key information
   var appKey = '4umc6p0v84tdsxu'; //dropbox key
   var clientId = '1HTt2CDZ9T8E9Swqk0zeNewJ3'; //twitter client id
   var clientSecret = 'nWXiDdFMRi6SpamRHvvc0WFSqX0vLbhp9PCUxMB0YWf6vN6QSm'; //twitter client secret
-  
+
   //dropbox token information
   var dropboxKey = 'STORAGE.DROPBOX.KEY';
   $scope.dropboxToken = JSON.parse(window.localStorage.getItem(dropboxKey));
   console.log($scope.dropboxToken);
-  
+
   //twitter token information
   var twitterKey = 'STORAGE.TWITTER.KEY';
   $scope.twitterToken = JSON.parse(window.localStorage.getItem(twitterKey));
@@ -56,7 +73,7 @@ angular.module('starter.controllers', [])
       );
 
     };
-  
+
     //*******************************************
     // Twitter User Setup
     //*******************************************
@@ -68,21 +85,21 @@ angular.module('starter.controllers', [])
         }, function(error) {
           console.log(error);
         });
-      } 
+      }
       else {
         console.log("twitter already logged in!");
         console.log($scope.twitterToken);
       }
     };
-  
+
     $scope.logoutOfTwitter = function() {
       localStorage.removeItem(twitterKey);
       $scope.twitterToken = null;
     };
-  
+
     //*******************************************
     // Dropbox User Setup
-    //******************************************* 
+    //*******************************************
     $scope.loginToDropbox = function() {
       if ($scope.dropboxToken === '' || $scope.dropboxToken === null) {
         $cordovaOauth.dropbox(appKey).then(function(result) {
@@ -91,13 +108,13 @@ angular.module('starter.controllers', [])
         }, function(error) {
           console.log(error);
         });
-      } 
+      }
       else {
         console.log("dropbox already logged in!");
         console.log($scope.dropboxToken);
       }
     };
-  
+
     $scope.logoutOfDropbox = function() {
       localStorage.removeItem(dropboxKey);
       $scope.dropboxToken = null;
