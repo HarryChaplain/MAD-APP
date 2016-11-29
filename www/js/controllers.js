@@ -70,6 +70,10 @@ angular.module('starter.controllers', [])
   $scope.twitterToken = JSON.parse(window.localStorage.getItem(twitterKey));
 //  console.log($scope.twitterToken);
 
+
+//*******************************************
+// Facebook User Setup
+//*******************************************
   $scope.loggedIn = false;
     $scope.loginToFacebook = function() {
       var fbLoginSuccess = function (userData) {
