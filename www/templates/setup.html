@@ -7,10 +7,10 @@
         that social media:
       </div>
       <li class="item item-button-right item-icon-left">
-        Facebook <p>{{username}}</p>
+        Facebook <p>{{facebookToken.name}}</p>
         <i class="icon ion-social-facebook"></i>
-        <button class="button button-positive facebookLoginButton" ng-hide="loggedIn" ng-click="loginToFacebook()">Login</button>
-        <button class="button button-assertive facebookLogout" ng-show="loggedIn" ng-click="logoutOfFacebook()">Logout</button>
+        <button class="button button-positive facebookLoginButton" ng-show="facebookToken === '' || facebookToken === null" ng-click="loginToFacebook()">Login</button>
+        <button class="button button-assertive facebookLogout" ng-hide="facebookToken === '' || facebookToken === null" ng-click="logoutOfFacebook()">Logout</button>
       </li>
 
       <!-- Twitter Login Setup -->

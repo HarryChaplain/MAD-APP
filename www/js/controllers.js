@@ -65,6 +65,11 @@ angular.module('starter.controllers', [])
   $scope.dropboxToken = JSON.parse(window.localStorage.getItem(dropboxKey));
   console.log($scope.dropboxToken);
 
+  //dropbox token information
+  var facebookKey = 'STORAGE.FACEBOOK.KEY';
+  $scope.facebookToken = JSON.parse(window.localStorage.getItem(facebookKey));
+  console.log($scope.facebookKey);
+
   //twitter token information
   var twitterKey = 'STORAGE.TWITTER.KEY';
   $scope.twitterToken = JSON.parse(window.localStorage.getItem(twitterKey));
@@ -74,34 +79,34 @@ angular.module('starter.controllers', [])
 //*******************************************
 // Facebook User Setup
 //*******************************************
-  $scope.loggedIn = false;
-    $scope.loginToFacebook = function() {
+  $scope.loginToFacebook = function() {
+    if ($scope.facebookToken === '' || $scope.facebookToken === null) {
       var fbLoginSuccess = function (userData) {
-        $scope.loggedIn = true;
         var userID = userData.authResponse.userID;
         facebookConnectPlugin.api(userID+"/?fields=id,email,name", ["user_birthday"],
           function (result) {
               $scope.username = result.name;
+              $scope.facebookToken = result;
+              window.localStorage.setItem(facebookKey, JSON.stringify(result));
           },
           function (error) {
               alert("Failed: " + error);
-                $scope.loggedIn = false;
           });
-      };
-      $scope.logoutOfFacebook = function(){
-        facebookConnectPlugin.logout();
-        $scope.loggedIn = false;
-        $scope.username = "";
       };
 
       facebookConnectPlugin.login(["email", "public_profile"], fbLoginSuccess,
         function loginError (error) {
-          $scope.status = "ERROR connecting";
           alert("ERROR Connecting")
         }
       );
+    }
+  };
 
-    };
+  $scope.logoutOfFacebook = function(){
+    localStorage.removeItem(facebookKey);
+    $scope.facebookToken = null;
+    facebookConnectPlugin.logout();
+  };
 
     //*******************************************
     // Twitter User Setup
