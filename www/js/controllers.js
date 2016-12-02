@@ -8,7 +8,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('PostCtrl', function($scope, $cordovaEmailComposer) {
+.controller('PostCtrl', function($scope, $cordovaEmailComposer, $http) {
 
   //data object of post data
   $scope.postData = {
@@ -65,10 +65,13 @@ angular.module('starter.controllers', [])
   $scope.dropboxToken = JSON.parse(window.localStorage.getItem(dropboxKey));
   console.log($scope.dropboxToken);
 
-  //dropbox token information
+  //facebook token information
   var facebookKey = 'STORAGE.FACEBOOK.KEY';
   $scope.facebookToken = JSON.parse(window.localStorage.getItem(facebookKey));
   console.log($scope.facebookKey);
+
+  var facebookDataKey ='STORAGE.FB.DATA.KEY';
+  $scope.facebookData = JSON.parse(window.localStorage.getItem(facebookDataKey));
 
   //twitter token information
   var twitterKey = 'STORAGE.TWITTER.KEY';
@@ -79,33 +82,40 @@ angular.module('starter.controllers', [])
 //*******************************************
 // Facebook User Setup
 //*******************************************
+
+  //facebook app ID to access the facebook API
+  var facebookAppID = '1318210328221123';
+
   $scope.loginToFacebook = function() {
     if ($scope.facebookToken === '' || $scope.facebookToken === null) {
-      var fbLoginSuccess = function (userData) {
-        var userID = userData.authResponse.userID;
-        facebookConnectPlugin.api(userID+"/?fields=id,email,name", ["user_birthday"],
-          function (result) {
-              $scope.username = result.name;
-              $scope.facebookToken = result;
-              window.localStorage.setItem(facebookKey, JSON.stringify(result));
-          },
-          function (error) {
-              alert("Failed: " + error);
-          });
-      };
-
-      facebookConnectPlugin.login(["email", "public_profile"], fbLoginSuccess,
-        function loginError (error) {
-          alert("ERROR Connecting")
-        }
-      );
+      $cordovaOauth.facebook(facebookAppID, ["email", "public_profile"]).then(function(result) {
+        //the result of this only returns the access_token
+        //Therefore a GET request has to be called to get the users data (name)
+        setUpFacebookUser(result.access_token);
+      }, function(error) {
+        console.log(error);
+      });
+    }
+    else {
+      console.log("facebook already logged in!");
+      console.log($scope.facebookToken);
     }
   };
 
-  $scope.logoutOfFacebook = function(){
+  function setUpFacebookUser(access_token){
+  //This gets the users data using the access_token from logging in
+  $http.get("https://graph.facebook.com/v2.8/me", { params: { access_token: access_token, fields: "id,name,gender,location,website,picture,relationship_status", format: "json" }}).then(function(result) {
+      $scope.facebookToken = result;
+      window.localStorage.setItem(facebookKey, JSON.stringify(result));
+    }, function(error) {
+      alert("There was a problem getting your profile.  Check the logs for details.");
+      console.log(error);
+  });
+};
+
+  $scope.logoutOfFacebook = function() {
     localStorage.removeItem(facebookKey);
     $scope.facebookToken = null;
-    facebookConnectPlugin.logout();
   };
 
     //*******************************************

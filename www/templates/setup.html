@@ -7,7 +7,7 @@
         that social media:
       </div>
       <li class="item item-button-right item-icon-left">
-        Facebook <p>{{facebookToken.name}}</p>
+        Facebook <p>{{facebookToken.data.name}}</p>
         <i class="icon ion-social-facebook"></i>
         <button class="button button-positive facebookLoginButton" ng-show="facebookToken === '' || facebookToken === null" ng-click="loginToFacebook()">Login</button>
         <button class="button button-assertive facebookLogout" ng-hide="facebookToken === '' || facebookToken === null" ng-click="logoutOfFacebook()">Logout</button>
@@ -37,7 +37,7 @@
         </button>
       </li>
 
-      
+
 	 </ul>
   </ion-content>
 </ion-view>
