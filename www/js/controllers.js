@@ -8,8 +8,38 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('PostCtrl', function($scope, $cordovaEmailComposer, $http) {
+.controller('PostCtrl', function($scope, $cordovaEmailComposer, $ionicPopup, $http) {
 
+  var facebookKey = 'STORAGE.FACEBOOK.KEY';
+  $scope.facebookToken = JSON.parse(window.localStorage.getItem(facebookKey));
+
+  console.log($scope.facebookToken);
+
+  //for pop up when posting
+  $scope.showPopUp = function(){
+    // An elaborate, custom popup
+   var myPopup = $ionicPopup.show({
+     templateUrl: 'templates/popupPost.html',
+     title: 'Post To...',
+     buttons: [
+      { text: 'Cancel',
+        type: 'button-assertive'
+      },
+      {
+        text: '<b>Post</b>',
+        type: 'button-positive',
+        onTap: function(e) {
+          alert("Posting");
+        }
+      }
+    ]
+   });
+
+   myPopup.then(function(res){
+     console.log("closing pop up ");
+   });
+
+ };
   //data object of post data
   $scope.postData = {
     to: "",
@@ -69,9 +99,6 @@ angular.module('starter.controllers', [])
   var facebookKey = 'STORAGE.FACEBOOK.KEY';
   $scope.facebookToken = JSON.parse(window.localStorage.getItem(facebookKey));
   console.log($scope.facebookKey);
-
-  var facebookDataKey ='STORAGE.FB.DATA.KEY';
-  $scope.facebookData = JSON.parse(window.localStorage.getItem(facebookDataKey));
 
   //twitter token information
   var twitterKey = 'STORAGE.TWITTER.KEY';
