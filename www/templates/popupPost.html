@@ -1,4 +1,6 @@
  <ul class="list">
+   
+   <!-- this is for toggle on if email is selcted -->
    <ion-item ng-show="email.enabled == true">
      <ion-item>
          <ion-input><input placeholder="To:" type="text"></ion-input>
@@ -18,28 +20,27 @@
          </div>
        </label>
    </li>
-      <li class="item item-toggle item-icon-left" ng-hide="facebookToken === '' || facebookToken === null">
-        Facebook
-        <i class="icon ion-social-facebook"></i>
-          <label class="toggle toggle-positive">
-            <input type="checkbox">
-            <div class="track">
-              <div class="handle"></div>
-            </div>
-          </label>
-      </li>
-      <li class="item item-toggle item-icon-left">
-        Twitter <p>{{twitterToken.screen_name}}</p>
-        <i class="icon ion-social-twitter"></i>
-          <label class="toggle toggle-positive">
-            <input type="checkbox">
-            <div class="track">
-              <div class="handle"></div>
-            </div>
-          </label>
-      </li>
-      <!-- this is for toggle on if email is selcted -->
-
-
-      </li>
-    </ul>
+   
+   <li class="item item-toggle item-icon-left" ng-hide="facebookToken === '' || facebookToken === null">
+     Facebook
+     <i class="icon ion-social-facebook"></i>
+      <label class="toggle toggle-positive">
+        <input type="checkbox" ng-model="postList[0]" ng-true-value="'facebook'">
+        <div class="track">
+          <div class="handle"></div>
+        </div>
+      </label>
+   </li>
+      
+    <li class="item item-toggle item-icon-left" ng-hide="twitterToken === '' || twitterToken === null || dropboxToken === '' || dropboxToken === null">
+      Twitter
+      <i class="icon ion-social-twitter"></i>
+        <label class="toggle toggle-positive">
+          <input type="checkbox" ng-model="postList[1]" ng-true-value="'twitter'">
+          <div class="track">
+            <div class="handle"></div>
+          </div>
+        </label>
+    </li>
+   
+  </ul>

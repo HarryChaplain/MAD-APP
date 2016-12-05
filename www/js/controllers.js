@@ -8,37 +8,50 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('PostCtrl', function($scope, $cordovaEmailComposer, $ionicPopup, $http) {
+.controller('PostCtrl', function($scope, $cordovaEmailComposer, $ionicPopup, $http, $twitterApi) {
 
+  //array of places to post review to
+  $scope.postList = [];
+  
+  //dropbox token information
+  var dropboxKey = 'STORAGE.DROPBOX.KEY';
+  $scope.dropboxToken = JSON.parse(window.localStorage.getItem(dropboxKey));
+  
+  //facebook token information
   var facebookKey = 'STORAGE.FACEBOOK.KEY';
   $scope.facebookToken = JSON.parse(window.localStorage.getItem(facebookKey));
 
-  console.log($scope.facebookToken);
-
+  //twitter token information
+  var twitterKey = 'STORAGE.TWITTER.KEY';
+  $scope.twitterToken = JSON.parse(window.localStorage.getItem(twitterKey));
+  var clientId = '1HTt2CDZ9T8E9Swqk0zeNewJ3';
+  var clientSecret = 'nWXiDdFMRi6SpamRHvvc0WFSqX0vLbhp9PCUxMB0YWf6vN6QSm';
+  
   //for pop up when posting
   $scope.showPopUp = function(){
     // An elaborate, custom popup
    var myPopup = $ionicPopup.show({
      templateUrl: 'templates/popupPost.html',
      title: 'Post To...',
+     scope: $scope,
      buttons: [
-      { text: 'Cancel',
+      { 
+        text: 'Cancel',
         type: 'button-assertive'
       },
       {
         text: '<b>Post</b>',
         type: 'button-positive',
         onTap: function(e) {
-          alert("Posting");
+          if($scope.postData.title != "" && $scope.postData.body != "") {
+            $scope.post();
+            $scope.postData.title = "";
+            $scope.postData.body = "";
+          }
         }
       }
     ]
    });
-
-   myPopup.then(function(res){
-     console.log("closing pop up ");
-   });
-
  };
   //data object of post data
   $scope.postData = {
@@ -75,11 +88,76 @@ angular.module('starter.controllers', [])
 
   //posts to social media and email
   $scope.post = function() {
+    for(i=0;i<$scope.postList.length;i++) {
+//      console.log($scope.postList[i]);
+      switch($scope.postList[i]) {
+        case 'facebook':
+          //do facebook post
+          break;
+        case 'twitter':
+          $scope.postFile();
+          break;
+      }
+    }
+    //cordova.plugins.email.open($scope.postData);
+  };
 
-    cordova.plugins.email.open($scope.postData);
-  }
+  $scope.postFile = function() {
+    var file = new Blob([$scope.postData.body], {type: 'text/plain'});
+    $http({
+      url: 'https://content.dropboxapi.com/2/files/upload',
+      method: "POST",
+      headers: {
+          'Authorization': 'Bearer ' + $scope.dropboxToken.access_token,
+          'Content-Type': 'application/octet-stream',
+          'Dropbox-API-Arg': '{"path": "/' + $scope.postData.title + '.txt","mode": "add","autorename": true,"mute": true}'
+      },
+      data: file
+    }).then(function(response) {
+      console.log("worked");
+      console.log(response.data);
+      $scope.getShareURL(response.data.path_display);
+    }, 
+    function(response) { // optional
+      console.log("failed");
+      console.log(response);
+    });
+  };
 
+  $scope.getShareURL = function(path) {
+    console.log(path);
+    $http({
+      url: 'https://api.dropboxapi.com/2/sharing/create_shared_link_with_settings',
+      method: "POST",
+      headers: {
+          'Authorization': 'Bearer ' + $scope.dropboxToken.access_token,
+          'Content-Type': 'application/json'
+      },
+      data: {
+          // "path": path_display,
+          "path": String(path),
+          "settings": {
+              "requested_visibility": "public"
+          }
+      }
+    }).then(function(response) {
+      console.log("worked");
+      console.log(response);
+      $scope.postToTwitter(response.data.url);
+    }, 
+    function(response) { // optional
+      console.log("failed");
+      console.log(response);
+    });
+  };
 
+  $scope.postToTwitter = function(shareUrl) {
+    $twitterApi.configure(clientId, clientSecret, $scope.twitterToken);
+    var tweet = "Hey, I posted a new film review! Link to view is attached. " + shareUrl;
+    $twitterApi.postStatusUpdate(tweet).then(function(result) {
+      console.log("tweeted");
+    });
+  };
 
 })
 

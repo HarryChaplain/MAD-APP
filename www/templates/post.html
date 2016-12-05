@@ -7,8 +7,11 @@
       <label class="item item-input">
           <input type="text" placeholder="Subject" ng-model="postData.subject">
       </label> -->
+      <label class="item item-input">
+        <input type="text" placeholder="Title" ng-model="postData.title">
+      </label>
       <label class="item item-input post-textBox">
-          <textarea type="text" rows="10" cols="5" placeholder="Message" ng-model="postData.body"></textarea>
+          <textarea type="text" rows="10" cols="5" placeholder="Review" ng-model="postData.body"></textarea>
       </label>
       <div class="button-bar padding-top">
         <a class="button button-positive" ng-click="record()">Speech to Text</a>
@@ -16,6 +19,6 @@
       </div>
       <button class="button button-block button-positive" ng-click="showPopUp()">Post</button>
 
-  <form>
+    </form>
   </ion-content>
 </ion-view>

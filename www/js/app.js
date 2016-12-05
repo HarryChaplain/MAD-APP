@@ -40,6 +40,7 @@ angular.module('starter', [
 
   .state('app.post', {
     url: '/post',
+    cache: false,
     views: {
       'menuContent': {
         templateUrl: 'templates/post.html',
@@ -49,6 +50,7 @@ angular.module('starter', [
   })
   .state('app.setup', {
       url: '/setup',
+      cache: false,
       views: {
         'menuContent': {
           templateUrl: 'templates/setup.html',
