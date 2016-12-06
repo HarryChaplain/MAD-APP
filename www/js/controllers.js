@@ -12,11 +12,15 @@ angular.module('starter.controllers', [])
 
   //array of places to post review to
   $scope.postList = [];
-  
+
+  $scope.email = {
+    enabled: false
+  };
+
   //dropbox token information
   var dropboxKey = 'STORAGE.DROPBOX.KEY';
   $scope.dropboxToken = JSON.parse(window.localStorage.getItem(dropboxKey));
-  
+
   //facebook token information
   var facebookKey = 'STORAGE.FACEBOOK.KEY';
   $scope.facebookToken = JSON.parse(window.localStorage.getItem(facebookKey));
@@ -26,7 +30,7 @@ angular.module('starter.controllers', [])
   $scope.twitterToken = JSON.parse(window.localStorage.getItem(twitterKey));
   var clientId = '1HTt2CDZ9T8E9Swqk0zeNewJ3';
   var clientSecret = 'nWXiDdFMRi6SpamRHvvc0WFSqX0vLbhp9PCUxMB0YWf6vN6QSm';
-  
+
   //for pop up when posting
   $scope.showPopUp = function(){
     // An elaborate, custom popup
@@ -35,7 +39,7 @@ angular.module('starter.controllers', [])
      title: 'Post To...',
      scope: $scope,
      buttons: [
-      { 
+      {
         text: 'Cancel',
         type: 'button-assertive'
       },
@@ -88,6 +92,8 @@ angular.module('starter.controllers', [])
 
   //posts to social media and email
   $scope.post = function() {
+
+
     for(i=0;i<$scope.postList.length;i++) {
 //      console.log($scope.postList[i]);
       switch($scope.postList[i]) {
@@ -98,6 +104,15 @@ angular.module('starter.controllers', [])
           $scope.postFile();
           break;
       }
+    }
+
+
+
+    if ($scope.email.enabled === true){
+      console.log($scope.postData);
+      cordova.plugins.email.open($scope.postData, function () {
+        console.log('email view dismissed');
+      }, this);
     }
     //cordova.plugins.email.open($scope.postData);
   };
@@ -117,7 +132,7 @@ angular.module('starter.controllers', [])
       console.log("worked");
       console.log(response.data);
       $scope.getShareURL(response.data.path_display);
-    }, 
+    },
     function(response) { // optional
       console.log("failed");
       console.log(response);
@@ -144,7 +159,7 @@ angular.module('starter.controllers', [])
       console.log("worked");
       console.log(response);
       $scope.postToTwitter(response.data.url);
-    }, 
+    },
     function(response) { // optional
       console.log("failed");
       console.log(response);

@@ -1,12 +1,12 @@
  <ul class="list">
-   
+
    <!-- this is for toggle on if email is selcted -->
    <ion-item ng-show="email.enabled == true">
      <ion-item>
-         <ion-input><input placeholder="To:" type="text"></ion-input>
+         <ion-input><input placeholder="To:" type="email" ng-model="postData.to"></ion-input>
      </ion-item>
      <ion-item>
-         <ion-input ><input placeholder="Subject:" type="text"></ion-input>
+         <ion-input ><input placeholder="Subject:" type="text" ng-model="postData.subject"></ion-input>
      </ion-item>
    </ion-item>
 
@@ -20,7 +20,7 @@
          </div>
        </label>
    </li>
-   
+
    <li class="item item-toggle item-icon-left" ng-hide="facebookToken === '' || facebookToken === null">
      Facebook
      <i class="icon ion-social-facebook"></i>
@@ -31,7 +31,7 @@
         </div>
       </label>
    </li>
-      
+
     <li class="item item-toggle item-icon-left" ng-hide="twitterToken === '' || twitterToken === null || dropboxToken === '' || dropboxToken === null">
       Twitter
       <i class="icon ion-social-twitter"></i>
@@ -42,5 +42,5 @@
           </div>
         </label>
     </li>
-   
+
   </ul>
