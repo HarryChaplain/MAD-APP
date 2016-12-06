@@ -49,8 +49,6 @@ angular.module('starter.controllers', [])
         onTap: function(e) {
           if($scope.postData.title != "" && $scope.postData.body != "") {
             $scope.post();
-            $scope.postData.title = "";
-            $scope.postData.body = "";
           }
         }
       }
@@ -98,7 +96,7 @@ angular.module('starter.controllers', [])
 //      console.log($scope.postList[i]);
       switch($scope.postList[i]) {
         case 'facebook':
-          //do facebook post
+          $scope.postToFacebook();
           break;
         case 'twitter':
           $scope.postFile();
@@ -109,12 +107,32 @@ angular.module('starter.controllers', [])
 
 
     if ($scope.email.enabled === true){
-      console.log($scope.postData);
       cordova.plugins.email.open($scope.postData, function () {
         console.log('email view dismissed');
+        $scope.postData.title = "";
+        $scope.postData.body = "";
       }, this);
     }
     //cordova.plugins.email.open($scope.postData);
+  };
+
+
+
+
+  $scope.postToFacebook = function(){
+    var message = $scope.postData.body;
+    $http({
+      url:'https://graph.facebook.com/v2.8/me/feed?method=post&message='+encodeURIComponent(message),
+      method: "POST",
+      data:{
+        access_token: $scope.facebookToken.config.params.access_token
+      }
+    }).then(function(response) {
+      $scope.getShareURL(response.data.path_display);
+    },
+    function(response) { // optional
+      alert("FAILED");
+    });
   };
 
   $scope.postFile = function() {
