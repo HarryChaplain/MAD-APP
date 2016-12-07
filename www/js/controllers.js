@@ -129,6 +129,8 @@ angular.module('starter.controllers', [])
       }
     }).then(function(response) {
       console.log(response);
+      $scope.postData.title = "";
+      $scope.postData.body = "";
     },
     function(response) { // optional
       alert("FAILED");
@@ -186,7 +188,7 @@ angular.module('starter.controllers', [])
 
   $scope.postToTwitter = function(shareUrl) {
     $twitterApi.configure(clientId, clientSecret, $scope.twitterToken);
-    var tweet = "Hey, I posted a new film review! Link to view is attached. " + shareUrl;
+    var tweet = "Hey, I posted a new review! Link to view is attached. " + shareUrl;
     $twitterApi.postStatusUpdate(tweet).then(function(result) {
       console.log("tweeted");
     });
