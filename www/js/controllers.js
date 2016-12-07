@@ -128,7 +128,7 @@ angular.module('starter.controllers', [])
         access_token: $scope.facebookToken.config.params.access_token
       }
     }).then(function(response) {
-      $scope.getShareURL(response.data.path_display);
+      console.log(response);
     },
     function(response) { // optional
       alert("FAILED");
