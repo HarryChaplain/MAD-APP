@@ -8,7 +8,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('PostCtrl', function($scope, $cordovaEmailComposer, $ionicPopup, $http, $twitterApi) {
+.controller('PostCtrl', function($scope, $cordovaEmailComposer, $ionicPopup, $http, $twitterApi, $cordovaCamera) {
 
   //array of places to post review to
   $scope.postList = [];
@@ -60,8 +60,28 @@ angular.module('starter.controllers', [])
     to: "",
     subject: "",
     body: "",
+    attachments: [],
     isHtml: true
   };
+
+  $scope.noOfAttachments = 0;
+  $scope.attachImg = function() {
+
+    var options = {
+      destinationType : Camera.DestinationType.FILE_URI,
+      sourceType : Camera.PictureSourceType.PHOTOLIBRARY,
+      allowEdit : false,
+      encodingType: Camera.EncodingType.JPG,
+      popoverOptions: CameraPopoverOptions
+    };
+
+    $cordovaCamera.getPicture(options).then(function(imageData) {
+      $scope.postData.attachments.push(imageData) ;
+      $scope.noOfAttachments++;
+    }, function(error) {
+      console.error(error);
+    });
+  }
 
   //speaks text in message field
   $scope.speakText = function() {
@@ -111,6 +131,8 @@ angular.module('starter.controllers', [])
         console.log('email view dismissed');
         $scope.postData.title = "";
         $scope.postData.body = "";
+        $scope.postData.attachmets = [];
+        $scope.noOfAttachments = 0;
       }, this);
     }
     //cordova.plugins.email.open($scope.postData);
@@ -133,7 +155,7 @@ angular.module('starter.controllers', [])
       $scope.postData.body = "";
     },
     function(response) { // optional
-      alert("FAILED");
+      alert(response);
     });
   };
 

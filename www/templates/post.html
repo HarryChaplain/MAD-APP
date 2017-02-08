@@ -13,6 +13,11 @@
       <label class="item item-input post-textBox">
           <textarea type="text" rows="10" cols="5" placeholder="Review" ng-model="postData.body"></textarea>
       </label>
+      <div class="col">Files Attached: {{noOfAttachments}}</div>
+      <div class="button-bar padding-top">
+
+        <a class="button button-positive" ng-click="attachImg()">Attach Image</a>
+      </div>
       <div class="button-bar padding-top">
         <a class="button button-positive" ng-click="record()">Speech to Text</a>
         <a class="button button-positive" ng-click="speakText()">Text to Speech</a>
