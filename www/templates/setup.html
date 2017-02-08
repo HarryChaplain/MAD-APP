@@ -36,6 +36,18 @@
           Logout
         </button>
       </li>
+      
+      <!-- Wordpress Login Setup -->
+      <li class="item item-button-right item-icon-left">
+        Wordpress <p ng-hide="wordpressToken === '' || wordpressToken === null">Logged In</p>
+        <i class="icon ion-social-wordpress"></i>
+        <button class="button button-positive" ng-show="wordpressToken === '' || wordpressToken === null" ng-click="loginToWordpress()">
+          Login
+        </button>
+        <button class="button button-assertive" ng-hide="wordpressToken === '' || wordpressToken === null" ng-click="logoutOfWordpress()">
+          Logout
+        </button>
+      </li>
 
 
 	 </ul>
