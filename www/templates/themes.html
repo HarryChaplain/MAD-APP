@@ -1,0 +1,41 @@
+<ion-view view-title="Settings">
+  <ion-content>
+
+   <!-- <label class="item item-input item-select">
+      <div class="input-label">
+          Select your theme:
+      </div>
+      <select>
+          <option selected>Default</option>
+          <option >green</option>
+          <option>red</option>
+          <option >yellow</option>
+      </select>
+  </label> -->
+    <ul class="list">
+      <div class="item item-divider">
+        Themes:
+      </div>
+      <div class="card">
+        <div class="item item-text-wrap" ng-click="setTheme('yellow');">
+          YELLOW
+        </div>
+      </div>
+      <div class="card">
+        <div class="item item-text-wrap" ng-click="setTheme('red');">
+          RED
+        </div>
+      </div>
+      <div class="card">
+        <div class="item item-text-wrap" ng-click="setTheme('green');">
+          GREEN
+        </div>
+      </div>
+      <div class="card">
+        <div class="item item-text-wrap" ng-click="setTheme('default');">
+          DEFAULT
+        </div>
+      </div>
+    </ul>
+  </ion-content>
+</ion-view>

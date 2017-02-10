@@ -59,6 +59,17 @@ angular.module('starter', [
       }
     })
 
+		.state('app.themes', {
+	      url: '/themes',
+	      cache: false,
+	      views: {
+	        'menuContent': {
+	          templateUrl: 'templates/themes.html',
+	          controller: 'ThemesCtrl'
+	        }
+	      }
+	    })
+
   .state('app.settings', {
       url: '/settings',
       views: {

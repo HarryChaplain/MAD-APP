@@ -8,6 +8,28 @@ angular.module('starter.controllers', [])
 
 })
 
+.controller('ThemesCtrl', function($scope, $ionicModal, $timeout, $state) {
+  var stylesheet = document.getElementById('stylesheet');
+
+  $scope.setTheme = function(colour){
+    switch(colour) {
+      case "red":
+        stylesheet.href = "css/redStyle.css";
+        break;
+      case "yellow":
+      stylesheet.href = "css/yellowStyle.css";
+        break;
+      case "green":
+      stylesheet.href = "css/greenStyle.css";
+        break;
+      case "default":
+      stylesheet.href = "css/defaultStyle.css";
+        break;
+    }
+  }
+
+})
+
 .controller('PostCtrl', function($scope, $cordovaEmailComposer, $ionicPopup, $http, $twitterApi, $cordovaCamera) {
 
   //array of places to post review to
@@ -239,7 +261,7 @@ angular.module('starter.controllers', [])
   var twitterKey = 'STORAGE.TWITTER.KEY';
   $scope.twitterToken = JSON.parse(window.localStorage.getItem(twitterKey));
 //  console.log($scope.twitterToken);
-  
+
   //wordpress token information
   var wordpressKey = "STORAGE.WORDPRESS.KEY";
   $scope.wordpressToken = JSON.parse(window.localStorage.getItem(wordpressKey));
@@ -329,19 +351,19 @@ angular.module('starter.controllers', [])
       localStorage.removeItem(dropboxKey);
       $scope.dropboxToken = null;
     };
-  
+
     //*******************************************
     // Wordpress User Setup
     //*******************************************
     $scope.loginToWordpress = function() {
       //launch in app browser to wordpress API
       $scope.browser = window.cordova.InAppBrowser.open("https://public-api.wordpress.com/oauth2/authorize?client_id=51873&redirect_uri=http://localhost/callback&response_type=token", "_blank", "location=no,clearsessioncache=yes,clearcache=yes");
-      
+
       //add listener to the in app browser
       $scope.browser.addEventListener("loadstart", function(event) {
         //if url returned has callback url in
         if((event.url).indexOf("http://localhost/callback") === 0) {
-          
+
           //remove event listener and close browser as successfully logged in
           $scope.browser.removeEventListener("exit",function(event){});
           $scope.browser.close();
@@ -355,17 +377,17 @@ angular.module('starter.controllers', [])
           $scope.expires = (event.url).split("&expires_in=")[1];
           $scope.expires = ($scope.expires).split("&token_type")[0];
           console.log($scope.expires);
-          
+
           //create object to save in local storage
           $scope.data = {
             "accessToken": $scope.accessToken,
             "expires": $scope.expires
           };
-          
+
           //save in local storage
           $scope.wordpressToken = $scope.data;
           window.localStorage.setItem(wordpressKey, JSON.stringify($scope.data));
-          
+
           //update html to show we have logged in
           $scope.$apply();
         }
@@ -376,7 +398,7 @@ angular.module('starter.controllers', [])
         console.log("The sign in flow was canceled");
       });
     };
-  
+
     $scope.logoutOfWordpress = function() {
       localStorage.removeItem(wordpressKey);
       $scope.wordpressToken = null;
@@ -384,4 +406,5 @@ angular.module('starter.controllers', [])
 })
 
 .controller('SettingsCtrl', function($scope) {
+
 });

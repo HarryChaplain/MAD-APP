@@ -1,0 +1,12 @@
+.bar.bar-positive{
+  background-color: #ffc900 ;
+}
+
+.textarea{
+  background-color: #ffc900 ;
+}
+
+.overflow-scroll > .scroll{
+  background-color: #ffc900 ;
+  color: white;
+}
