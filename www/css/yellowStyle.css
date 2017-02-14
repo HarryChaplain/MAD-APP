@@ -10,3 +10,7 @@
   background-color: #ffc900 ;
   color: white;
 }
+
+.buttonRange{
+  visibility:hidden;
+}

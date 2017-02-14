@@ -16,26 +16,36 @@
       <div class="item item-divider">
         Themes:
       </div>
-      <div class="card">
-        <div class="item item-text-wrap" ng-click="setTheme('yellow');">
-          YELLOW
-        </div>
-      </div>
-      <div class="card">
-        <div class="item item-text-wrap" ng-click="setTheme('red');">
-          RED
-        </div>
-      </div>
-      <div class="card">
-        <div class="item item-text-wrap" ng-click="setTheme('green');">
-          GREEN
-        </div>
-      </div>
-      <div class="card">
-        <div class="item item-text-wrap" ng-click="setTheme('default');">
-          DEFAULT
-        </div>
-      </div>
+      <li class="item item-toggle item-icon-left">
+        GREEN
+        <i class="icon ion-edit"></i>
+          <label class="toggle toggle-balanced">
+            <input type="checkbox" ng-model="trueFalseGreen" ng-change="checkGreen(trueFalseGreen);">
+            <div class="track">
+              <div class="handle"></div>
+            </div>
+          </label>
+      </li>
+      <li class="item item-toggle item-icon-left">
+        YELLOW
+        <i class="icon ion-edit"></i>
+          <label class="toggle toggle-energized">
+            <input type="checkbox" ng-model="trueFalseYellow" ng-change="checkYellow(trueFalseYellow);">
+            <div class="track">
+              <div class="handle"></div>
+            </div>
+          </label>
+      </li>
+      <li class="item item-toggle item-icon-left">
+        BIG BUTTONS
+        <i class="icon ion-edit"></i>
+          <label class="toggle toggle-dark">
+            <input type="checkbox" ng-model="trueFalseBigButtons" ng-change="checkBigButtons(trueFalseBigButtons);">
+            <div class="track">
+              <div class="handle"></div>
+            </div>
+          </label>
+      </li>
     </ul>
   </ion-content>
 </ion-view>

@@ -18,11 +18,16 @@
 
         <a class="button button-positive" ng-click="attachImg()">Attach Image</a>
       </div>
-      <div class="button-bar padding-top">
-        <a class="button button-positive" ng-click="record()">Speech to Text</a>
-        <a class="button button-positive" ng-click="speakText()">Text to Speech</a>
+      <div id="buttonBar"class="button-bar padding-top">
+        <a id="button1" class="button button-positive" ng-click="record()">Speech to Text</a>
+        <a id="button2" class="button button-positive" ng-click="speakText()">Text to Speech</a>
       </div>
-      <button class="button button-block button-positive" ng-click="showPopUp()">Post</button>
+      <button id="button3" class="button button-block button-positive" ng-click="showPopUp()">Post</button>
+      <div class="item range buttonRange">
+        <i class="icon ion-minus" ></i>
+          <input type="range" name="volume" ng-model="value" min="50" max="100" value="33" ng-model="test"  on-release="changeButtonHeight(value);">
+        <i class="icon ion-plus"></i>
+      </div>
 
     </form>
   </ion-content>

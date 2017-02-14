@@ -6,25 +6,64 @@ angular.module('starter.controllers', [])
     $state.go('app.post');
   };
 
+  $scope.changeButtonHeight = function(value){
+    // document.getElementById("button").style.height = value+"px";
+    // document.getElementById("buttonBar").style.height = value+"px";
+    document.getElementById("button1").style.height = value+"px";
+    document.getElementById("button2").style.height = value+"px";
+    document.getElementById("button3").style.height = value+"px";
+
+    // console.log(value);
+    if(value > 80){
+      document.getElementById("button1").style.fontSize = 30+"px";
+      document.getElementById("button2").style.fontSize = 30+"px";
+      document.getElementById("button3").style.fontSize = 30+"px";
+    }
+  };
 })
 
 .controller('ThemesCtrl', function($scope, $ionicModal, $timeout, $state) {
-  var stylesheet = document.getElementById('stylesheet');
+  // var stylesheet = document.getElementById('stylesheet');
+  //
+  // $scope.setTheme = function(colour){
+  //   switch(colour) {
+  //     case "bigbuttons":
+  //       stylesheet.href = "css/bigbuttonsStyle.css";
+  //       break;
+  //     case "yellow":
+  //     stylesheet.href = "css/yellowStyle.css";
+  //       break;
+  //     case "green":
+  //     stylesheet.href = "css/greenStyle.css";
+  //       break;
+  //     case "default":
+  //     stylesheet.href = "css/defaultStyle.css";
+  //       break;
+  //   }
+  // }
 
-  $scope.setTheme = function(colour){
-    switch(colour) {
-      case "red":
-        stylesheet.href = "css/redStyle.css";
-        break;
-      case "yellow":
-      stylesheet.href = "css/yellowStyle.css";
-        break;
-      case "green":
+  $scope.checkGreen = function(value){
+    var stylesheet = document.getElementById('stylesheet');
+    if(value === true){
       stylesheet.href = "css/greenStyle.css";
-        break;
-      case "default":
+    }else{
       stylesheet.href = "css/defaultStyle.css";
-        break;
+    }
+  }
+  $scope.checkYellow = function(value){
+    var stylesheet = document.getElementById('stylesheet');
+    if(value === true){
+      stylesheet.href = "css/yellowStyle.css";
+    }else{
+      stylesheet.href = "css/defaultStyle.css";
+    }
+  }
+  $scope.checkBigButtons = function(value){
+    var stylesheet = document.getElementById('stylesheet');
+    if(value === true){
+      stylesheet.href = "css/bigbuttonsStyle.css";
+    }else{
+      stylesheet.href = "css/defaultStyle.css";
     }
   }
 

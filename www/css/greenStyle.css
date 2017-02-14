@@ -11,3 +11,7 @@
   background-color: #33cd5f ;
   color: white;
 }
+
+.buttonRange{
+  visibility:hidden;
+}
