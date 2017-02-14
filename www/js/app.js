@@ -69,6 +69,16 @@ angular.module('starter', [
 	        }
 	      }
 	    })
+		.state('app.omdb', {
+	      url: '/omdb',
+	      cache: false,
+	      views: {
+	        'menuContent': {
+	          templateUrl: 'templates/omdb.html',
+	          controller: 'omdbCtrl'
+	        }
+	      }
+	    })
 
   .state('app.settings', {
       url: '/settings',

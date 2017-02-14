@@ -1,0 +1,39 @@
+<ion-view view-title="Find A Movie">
+  <ion-content>
+    <div class='search'>
+
+
+      <div class="list">
+        <div class="item item-input-inset">
+          <label class="item-input-wrapper">
+            <input type="text" placeholder="Search Film..." ng-model='movieData.title'>
+          </label>
+          <button class="button button-small" ng-click="formAction()">
+            Go!
+          </button>
+        </div>
+
+      </div>
+    </div>
+    <ion-list ng-show="!movie">
+      <ion-item ng-repeat="movie in movies" class="item-avatar item-text-wrap" ng-click="movieSelect(movie.imdbID)">
+        <img ng-src="{{ movie.Poster }}">
+        <h2>{{movie.Title}} ({{movie.Year}})</h2>
+      </ion-item>
+    </ion-list>
+
+    <div class="list card" ng-show="movie">
+      <div class="item item-divider item-text-wrap">
+        <h2 align="center">{{movie.Title}}</h2>
+        <p align="center">({{movie.Year}})</p>
+      </div>
+
+      <div class="item" align="center" >
+        <img class="posterpic" ng-src="{{movie.Poster}}">
+      </div>
+      <div class="item item-body" align="center" >
+        <p>{{movie.Plot}}</p>
+        <p><span>{{movie.Rated}}</span> | <span>{{movie.Runtime}}</span> | <span>{{movie.Genre}}</span> | <span>{{movie.Released}}</span></p>
+        <p>{{movie.actors}}</p>
+      </div>
+    </div>

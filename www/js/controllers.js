@@ -30,6 +30,7 @@ angular.module('starter.controllers', [])
 
 })
 
+
 .controller('PostCtrl', function($scope, $cordovaEmailComposer, $ionicPopup, $http, $twitterApi, $cordovaCamera) {
 
   //array of places to post review to
@@ -406,5 +407,25 @@ angular.module('starter.controllers', [])
 })
 
 .controller('SettingsCtrl', function($scope) {
+})
 
-});
+.controller('omdbCtrl', function($scope, $http){
+    $scope.movieData = {
+      title: ""
+    };
+    $scope.formAction = function() {
+      $scope.movie = null;
+      $http.get('https://www.omdbapi.com/?s=' + $scope.movieData.title + '&y=&r=json').
+        then(function(response){
+          $scope.movies = response.data.Search;
+      });
+    };
+    $scope.movieSelect = function(imdbID){
+      $scope.movieData.title = null;
+      $http.get('https://www.omdbapi.com/?i=' + imdbID + '&y=&plot=short&r=json').
+        then(function(data){
+          $scope.movie = data.data;
+        });
+    };
+
+})
