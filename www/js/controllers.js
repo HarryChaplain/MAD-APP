@@ -183,14 +183,59 @@ angular.module('starter.controllers', [])
   };
 
   $scope.postFile = function() {
-    var file = new Blob([$scope.postData.body], {type: 'text/plain'});
+    //create our HTML to generate PDF report
+    $scope.html = "<!DOCTYPE html>" + 
+    "<head>" +
+    "</head>" +
+    "<body>" +
+    "<header style='padding-top: 18px; text-align: center; height: 100px; background-color: #387ef5; color: white; font-family: sans-serif;'>" + 
+    "<h1>" + $scope.postData.title + "</h1>" +
+    "</header>" +
+    "<section style='text-align: center; margin-top: 15px; font-family: sans-serif; font-size: 18px;'>" + 
+    "<p>" + $scope.postData.body + "</p>" +
+    "</section>" + 
+    "</body>" +
+    "</html>";
+
+    //use cordova PDF to generate the PDF document
+    pdf.htmlToPDF({
+      data: $scope.html,
+      documentSize: "A4",
+      landscape: "portrait",
+      type: "base64"
+    }, function(result){
+      console.log("success");
+      $scope.postToDropbox(result); //document created successfully, in base64 format
+    }, function(failure) {
+      console.log("failure");
+    });
+  };
+
+  //required to convert base64 string into buffer array
+  function base64ToArrayBuffer(base64) {
+    var binary_string =  window.atob(base64);
+    var len = binary_string.length;
+    var bytes = new Uint8Array(len);
+    for (var i = 0; i < len; i++)        {
+      bytes[i] = binary_string.charCodeAt(i);
+    }
+    return bytes.buffer;
+  }
+
+  $scope.postToDropbox = function(base64PDF) {
+    //convert base64 file into array buffer, else we get a blank docuent
+    var bufferArray = base64ToArrayBuffer(base64PDF);
+
+    //bufferArray file into new blob, ready to send to dropbox
+    var file = new Blob([bufferArray], {type: "application/pdf"});
+
     $http({
       url: 'https://content.dropboxapi.com/2/files/upload',
       method: "POST",
       headers: {
           'Authorization': 'Bearer ' + $scope.dropboxToken.access_token,
           'Content-Type': 'application/octet-stream',
-          'Dropbox-API-Arg': '{"path": "/' + $scope.postData.title + '.txt","mode": "add","autorename": true,"mute": true}'
+          'Dropbox-API-Arg': '{"path": "/' + $scope.postData.title + '.pdf","mode": "add","autorename": true,"mute": true}'
       },
       data: file
     }).then(function(response) {
