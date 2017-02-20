@@ -184,16 +184,16 @@ angular.module('starter.controllers', [])
 
   $scope.postFile = function() {
     //create our HTML to generate PDF report
-    $scope.html = "<!DOCTYPE html>" + 
+    $scope.html = "<!DOCTYPE html>" +
     "<head>" +
     "</head>" +
     "<body>" +
-    "<header style='padding-top: 18px; text-align: center; height: 100px; background-color: #387ef5; color: white; font-family: sans-serif;'>" + 
+    "<header style='padding-top: 18px; text-align: center; height: 100px; background-color: #387ef5; color: white; font-family: sans-serif;'>" +
     "<h1>" + $scope.postData.title + "</h1>" +
     "</header>" +
-    "<section style='text-align: center; margin-top: 15px; font-family: sans-serif; font-size: 18px;'>" + 
+    "<section style='text-align: center; margin-top: 15px; font-family: sans-serif; font-size: 18px;'>" +
     "<p>" + $scope.postData.body + "</p>" +
-    "</section>" + 
+    "</section>" +
     "</body>" +
     "</html>";
 
@@ -470,6 +470,28 @@ angular.module('starter.controllers', [])
       $http.get('https://www.omdbapi.com/?i=' + imdbID + '&y=&plot=short&r=json').
         then(function(data){
           $scope.movie = data.data;
+        });
+    };
+
+})
+
+.controller('skiddleCtrl', function($scope, $http){
+    $scope.showData = {
+      title: ""
+    };
+    $scope.formAction = function() {
+      $scope.show = null;
+      $http.get('https://www.skiddle.com/api/v1/events/search/?api_key=aace5873a4a07d0b969b3b58cc3355bf&eventcode=THEATRE&keyword=' + $scope.showData.title).
+        then(function(response){
+          $scope.shows = response.data.results;
+      });
+    };
+    $scope.showSelect = function(showID){
+      $scope.showData.title = '';
+      $scope.shows = null;
+      $http.get('http://www.skiddle.com/api/v1/events/' + showID + '/?api_key=aace5873a4a07d0b969b3b58cc3355bf').
+        then(function(response){
+          $scope.show = response.data.results;
         });
     };
 

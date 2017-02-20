@@ -79,6 +79,16 @@ angular.module('starter', [
 	        }
 	      }
 	    })
+			.state('app.skiddle', {
+		      url: '/skiddle',
+		      cache: false,
+		      views: {
+		        'menuContent': {
+		          templateUrl: 'templates/skiddle.html',
+		          controller: 'skiddleCtrl'
+		        }
+		      }
+		    })
 
   .state('app.settings', {
       url: '/settings',

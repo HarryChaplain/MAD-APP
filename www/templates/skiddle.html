@@ -1,0 +1,40 @@
+<ion-view view-title="Find Theatre Event">
+  <ion-content>
+    <div class='search'>
+
+
+      <div class="list">
+        <div class="item item-input-inset">
+          <label class="item-input-wrapper">
+            <input type="text" placeholder="Search Shows..." ng-model='showData.title'>
+          </label>
+          <button class="button button-small" ng-click="formAction()">
+            Go!
+          </button>
+        </div>
+
+      </div>
+    </div>
+    <ion-list ng-show="!show">
+      <ion-item ng-repeat="show in shows" class="item-avatar item-text-wrap" ng-click="showSelect(show.id)">
+        <img ng-src="{{ show.imageurl }}">
+        <h2>{{show.eventname}}</h2>
+      </ion-item>
+    </ion-list>
+
+    <div class="list card" ng-show="show">
+      <div class="item item-divider item-text-wrap">
+        <h2 align="center">{{show.eventname}}</h2>
+      </div>
+
+      <div class="item" align="center" >
+        <img class="posterpic" ng-src="{{show.largeimageurl}}">
+      </div>
+      <div class="item item-body" align="center" >
+        <p>{{show.description}}</p>
+        <p><span>{{show.venue.name}}</span> | <span>{{show.date}}</span></p>
+        <p>{{show.link}}</p>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>
