@@ -1,4 +1,4 @@
-
+/*
 #buttonBar{
 
   font-size: 30px;
@@ -19,14 +19,14 @@ white-space: normal;
 
   font: white;
   white-space: normal;
-}
+}*/
 
-.button{
+/*.button{
       font-size: 30px;
       white-space: normal;
-}
+}*/
 
-.buttonRange{
+#buttonRange{
 
   visibility: visible;
 }

@@ -61,7 +61,7 @@ angular.module('starter', [
 
 		.state('app.themes', {
 	      url: '/themes',
-	      cache: false,
+	      cache: true,
 	      views: {
 	        'menuContent': {
 	          templateUrl: 'templates/themes.html',

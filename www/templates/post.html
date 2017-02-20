@@ -23,7 +23,7 @@
         <a id="button2" class="button button-positive" ng-click="speakText()">Text to Speech</a>
       </div>
       <button id="button3" class="button button-block button-positive" ng-click="showPopUp()">Post</button>
-      <div class="item range buttonRange">
+      <div id="buttonRange" class="item range buttonRange">
         <i class="icon ion-minus" ></i>
           <input type="range" name="volume" ng-model="value" min="50" max="100" value="33" ng-model="test"  on-release="changeButtonHeight(value);">
         <i class="icon ion-plus"></i>

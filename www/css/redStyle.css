@@ -1,14 +1,16 @@
+
+
 .bar.bar-positive{
-  background-color: #33cd5f;
+  background-color: #ef473a;
 }
 
 .textarea{
-  background-color: #33cd5f;
+  background-color: #ef473a;
 }
 
 /*background colour chaner*/
 /*.overflow-scroll > .scroll{
-  background-color: #33cd5f ;
+  background-color: #ef473a ;
   color: white;
 }*/
 
@@ -18,12 +20,12 @@
 
 .button.button-positive {
     border-color: transparent;
-    background-color:  #33cd5f;
+    background-color:  #ef473a;
     color: #fff;
 }
 
 .button {
     border-color: transparent;
-    background-color:  #33cd5f;
+    background-color:  #ef473a;
     color: #fff;
 }
