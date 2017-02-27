@@ -91,7 +91,8 @@ angular.module('starter.controllers', [])
   $scope.attachImg = function() {
 
     var options = {
-      destinationType : Camera.DestinationType.FILE_URI,
+      //destinationType : Camera.DestinationType.FILE_URI, //harry's original option destinationType
+      destinationType : Camera.DestinationType.DATA_URL, //sunny's changed destinationType, test with email!
       sourceType : Camera.PictureSourceType.PHOTOLIBRARY,
       allowEdit : false,
       encodingType: Camera.EncodingType.JPG,
@@ -184,6 +185,23 @@ angular.module('starter.controllers', [])
 
   $scope.postFile = function() {
     //create our HTML to generate PDF report
+    // $scope.html = "<!DOCTYPE html>" +
+    // "<head>" +
+    // "</head>" +
+    // "<body>" +
+    // "<header style='padding-top: 18px; text-align: center; height: 100px; background-color: #387ef5; color: white; font-family: sans-serif;'>" +
+    // "<h1>" + $scope.postData.title + "</h1>" +
+    // "</header>" +
+    // "<section style='text-align: center; margin-top: 15px; font-family: sans-serif; font-size: 18px;'>" +
+    // "<p>" + $scope.postData.body + "</p>" +
+    // "</section>" +
+    // "<section style='text-align: center;'>" +
+    // "<img style='width: 50%' src='data:image/jpeg;base64," + $scope.postData.attachments[0] + "'>" +
+    // "</section>" +
+    // "</body>" +
+    // "</html>";
+
+    //create our HTML to generate PDF report
     $scope.html = "<!DOCTYPE html>" +
     "<head>" +
     "</head>" +
@@ -193,9 +211,21 @@ angular.module('starter.controllers', [])
     "</header>" +
     "<section style='text-align: center; margin-top: 15px; font-family: sans-serif; font-size: 18px;'>" +
     "<p>" + $scope.postData.body + "</p>" +
-    "</section>" +
-    "</body>" +
-    "</html>";
+    "</section>";
+
+    //if any image attachments, add this in
+    if($scope.postData.attachments.length > 0) {
+
+      //go through attachments and create html to append to pdf document created above
+      for($scope.increment = 0; $scope.increment < $scope.postData.attachments.length; $scope.increment++) {   
+        $scope.image = "<section style='text-align: center; margin-top: 20px;'>" +
+        "<img style='width: 50%' src='data:image/jpeg;base64," + $scope.postData.attachments[$scope.increment] + "'>" +
+        "</section>";
+        
+        //append this to html
+        $scope.html = $scope.html + $scope.image;
+      }
+    }
 
     //use cordova PDF to generate the PDF document
     pdf.htmlToPDF({
