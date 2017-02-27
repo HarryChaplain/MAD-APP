@@ -31,10 +31,12 @@ angular.module('starter.controllers', [])
 })
 
 
-.controller('PostCtrl', function($scope, $cordovaEmailComposer, $ionicPopup, $http, $twitterApi, $cordovaCamera) {
+.controller('PostCtrl', function($scope, $cordovaEmailComposer, $ionicPopup, $http, $twitterApi, $cordovaCamera, Copy) {
 
   //array of places to post review to
   $scope.postList = [];
+
+  $scope.pasteData = {};
 
   $scope.email = {
     enabled: false
@@ -100,11 +102,24 @@ angular.module('starter.controllers', [])
     };
 
     $cordovaCamera.getPicture(options).then(function(imageData) {
-      $scope.postData.attachments.push(imageData) ;
+      $scope.postData.attachments.push("base64:img.jpg//" + imageData) ;
       $scope.noOfAttachments++;
     }, function(error) {
       console.error(error);
     });
+  }
+
+  $scope.paste = function(){
+    var pasteData = Copy.getCopy();
+
+    if(pasteData.eventname){
+      $scope.postData.title = "My Review Of: " + pasteData.eventname;
+      $scope.postData.body =  pasteData.description + "\n\n" + "Venue: " + pasteData.venue.name;
+    }else{
+      $scope.postData.title = "My Review Of: " + pasteData.Title;
+      $scope.postData.body =  pasteData.Plot + "\n\n" + "Released: " + pasteData.Released;
+    }
+
   }
 
   //speaks text in message field
@@ -217,11 +232,11 @@ angular.module('starter.controllers', [])
     if($scope.postData.attachments.length > 0) {
 
       //go through attachments and create html to append to pdf document created above
-      for($scope.increment = 0; $scope.increment < $scope.postData.attachments.length; $scope.increment++) {   
+      for($scope.increment = 0; $scope.increment < $scope.postData.attachments.length; $scope.increment++) {
         $scope.image = "<section style='text-align: center; margin-top: 20px;'>" +
         "<img style='width: 50%' src='data:image/jpeg;base64," + $scope.postData.attachments[$scope.increment] + "'>" +
         "</section>";
-        
+
         //append this to html
         $scope.html = $scope.html + $scope.image;
       }
@@ -484,7 +499,7 @@ angular.module('starter.controllers', [])
 .controller('SettingsCtrl', function($scope) {
 })
 
-.controller('omdbCtrl', function($scope, $http){
+.controller('omdbCtrl', function($scope, $http, Copy, $state){
     $scope.movieData = {
       title: ""
     };
@@ -503,9 +518,14 @@ angular.module('starter.controllers', [])
         });
     };
 
+    $scope.copy = function(){
+      Copy.setCopy($scope.movie);
+      $state.go('app.post')
+    }
+
 })
 
-.controller('skiddleCtrl', function($scope, $http){
+.controller('skiddleCtrl', function($scope, $http, Copy, $state){
     $scope.showData = {
       title: ""
     };
@@ -524,5 +544,10 @@ angular.module('starter.controllers', [])
           $scope.show = response.data.results;
         });
     };
+
+    $scope.copy = function(){
+      Copy.setCopy($scope.show);
+      $state.go('app.post')
+    }
 
 })

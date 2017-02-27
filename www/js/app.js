@@ -7,6 +7,7 @@
 angular.module('starter', [
 	'ionic',
 	'starter.controllers',
+	'starter.services',
 	'ngCordova',
   	'ngCordovaOauth',
   	'ngTwitter'
@@ -40,7 +41,7 @@ angular.module('starter', [
 
   .state('app.post', {
     url: '/post',
-    cache: false,
+    cache: true,
     views: {
       'menuContent': {
         templateUrl: 'templates/post.html',
