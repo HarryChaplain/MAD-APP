@@ -318,7 +318,7 @@ angular.module('starter.controllers', [])
     }).then(function(response) {
       console.log("worked");
       console.log(response);
-      //$scope.postToTwitter(response.data.url);
+      $scope.postToTwitter(response.data.url);
     },
     function(response) { // optional
       console.log("failed");
