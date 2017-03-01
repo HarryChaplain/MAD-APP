@@ -233,10 +233,15 @@ angular.module('starter.controllers', [])
 
       //go through attachments and create html to append to pdf document created above
       for($scope.increment = 0; $scope.increment < $scope.postData.attachments.length; $scope.increment++) {
-        $scope.image = "<section style='text-align: center; margin-top: 20px;'>" +
-        "<img style='width: 50%' src='data:image/jpeg;base64," + $scope.postData.attachments[$scope.increment] + "'>" +
-        "</section>";
 
+        //remove appended text that is required for email, which then equals base64 string
+        $scope.stringAttachment = $scope.postData.attachments[$scope.increment].replace("base64:img.jpg//", "");
+  
+        $scope.image = "<section style='text-align: center; margin-top: 20px;'>" +
+        //"<img style='width: 50%' src='data:image/jpeg;base64," + $scope.postData.attachments[$scope.increment] + "'>" +
+        "<img style='width: 50%' src='data:image/jpeg;base64," + $scope.stringAttachment + "'>" +
+        "</section>";
+        
         //append this to html
         $scope.html = $scope.html + $scope.image;
       }
@@ -313,7 +318,7 @@ angular.module('starter.controllers', [])
     }).then(function(response) {
       console.log("worked");
       console.log(response);
-      $scope.postToTwitter(response.data.url);
+      //$scope.postToTwitter(response.data.url);
     },
     function(response) { // optional
       console.log("failed");
