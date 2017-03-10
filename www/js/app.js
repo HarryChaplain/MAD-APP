@@ -49,6 +49,16 @@ angular.module('starter', [
       }
     }
   })
+  .state('app.welcomePage', {
+    url: '/welcomePage',
+    cache: false,
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/welcomePage.html',
+        controller: 'welcomePageCtrl'
+      }
+    }
+  })
   .state('app.setup', {
       url: '/setup',
       cache: false,

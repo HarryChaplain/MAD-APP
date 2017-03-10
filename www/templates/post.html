@@ -11,16 +11,20 @@
         <input type="text" placeholder="Title" ng-model="postData.title">
       </label>
       <label class="item item-input post-textBox">
-          <textarea type="text" rows="10" cols="5" placeholder="Review" ng-model="postData.body"></textarea>
-      </label>
+          <textarea id="sourceTA"  type="text" rows="10" cols="5" placeholder="Review" ng-model="postData.body"></textarea>
+      </label><select ng-model ="translateData.fromLang" ng-options="language.languageName for language in languages track by language.languageCode"></select>
+        <select ng-model ="translateData.toLang" ng-options="language.languageName for language in languages track by language.languageCode"></select>
+
+{{toLang}}
       <div class="col">Files Attached: {{noOfAttachments}}</div>
       <div class="button-bar padding-top">
-
+      <a class="button button-positive"  ng-click="markdown()">Markdown</a>
         <a class="button button-positive" ng-click="attachImg()">Attach Image</a>
       </div>
       <div class="button-bar padding-top">
         <a class="button button-positive" ng-click="record()">Speech to Text</a>
         <a class="button button-positive" ng-click="speakText()">Text to Speech</a>
+         <a class="button button-positive" ng-click="translate()">Translate</a>
       </div>
       <button class="button button-block button-positive" ng-click="showPopUp()">Post</button>
       <button class="button button-block button-positive" ng-click="paste()">Paste Data</button>
