@@ -336,7 +336,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('SetupCtrl', function($scope, $cordovaOauth, $twitterApi, $http) {
+.controller('SetupCtrl', function($scope, $cordovaOauth, $twitterApi, $http, $ionicPopup, $firebaseObject, $firebaseAuth) {
 
   //twitter & dropbox key information
   var appKey = '4umc6p0v84tdsxu'; //dropbox key
@@ -356,11 +356,15 @@ angular.module('starter.controllers', [])
   //twitter token information
   var twitterKey = 'STORAGE.TWITTER.KEY';
   $scope.twitterToken = JSON.parse(window.localStorage.getItem(twitterKey));
-//  console.log($scope.twitterToken);
+  // console.log($scope.twitterToken);
 
   //wordpress token information
   var wordpressKey = "STORAGE.WORDPRESS.KEY";
   $scope.wordpressToken = JSON.parse(window.localStorage.getItem(wordpressKey));
+	
+  //send friend information
+  var sendFriendKey = "STORAGE.SENDFRIEND.KEY";
+  $scope.sendFriendUID = JSON.parse(window.localStorage.getItem(sendFriendKey));
 
 
 //*******************************************
@@ -499,6 +503,71 @@ angular.module('starter.controllers', [])
       localStorage.removeItem(wordpressKey);
       $scope.wordpressToken = null;
     };
+  
+    //*******************************************
+    // Send Friend Account Setup
+    //*******************************************
+    $scope.loginToSendFriend = function() {
+      //launch modal
+      //get information from modal
+      //do auth
+      //if pass close
+      // else relaunch modal and show error in modal html
+      
+      var ref = firebase.database().ref();
+      var firebasedata = $firebaseObject(ref);
+      var auth = $firebaseAuth();
+      
+      var template = '<input type="email" placeholder="Enter Email" ng-model="account.email">' +
+      '<br>' +
+      '<input type="password" placeholder="Enter Password" ng-model="account.password">';
+      
+      $scope.account = {};
+      
+      var myPopup = $ionicPopup.show({
+        template: template,
+        title: 'Enter Credentials',
+        scope: $scope,
+        buttons: [
+          { text: 'Cancel' },
+          {
+            text: '<b>Login</b>',
+            type: 'button-positive',
+            onTap: function(e) {
+              if (!$scope.account.email && !$scope.account.password) {
+                //don't allow the user to close unless he enters wifi password
+                e.preventDefault();
+              } else {
+                auth.$signInWithEmailAndPassword($scope.account.email, $scope.account.password).then(function(firebaseUser) {
+                  console.log("Signed in as:", firebaseUser.uid);
+                  
+                  //create object to save in local storage
+                  $scope.data = {
+                    "uid": firebaseUser.uid,
+                  };
+
+                  //save in local storage
+                  $scope.sendFriendUID = $scope.data;
+                  window.localStorage.setItem(sendFriendKey, JSON.stringify($scope.data));
+                  
+                  //close popup
+                  myPopup.close();
+                }).catch(function(error) {
+                  console.log("Authentication failed: ", error.message);
+                  alert(error.message);
+                });
+                e.preventDefault();
+              }
+            }
+          }
+        ]
+      });
+    };
+  
+    $scope.logoutOfSendFriend = function() {
+      localStorage.removeItem(sendFriendKey);
+      $scope.sendFriendUID = null;
+    };
 })
 
 .controller('SettingsCtrl', function($scope) {
@@ -555,4 +624,50 @@ angular.module('starter.controllers', [])
       $state.go('app.post')
     }
 
+})
+
+.controller('sendFriendSignUpCtrl', function($scope, $firebaseObject, $firebaseAuth, $ionicPopup, $state){
+	var ref = firebase.database().ref();
+    var firebasedata = $firebaseObject(ref);
+	var auth = $firebaseAuth();
+	$scope.signUp = function() {
+		if($scope.signUp.email != $scope.signUp.confirmEmail || $scope.signUp.password != $scope.signUp.confirmPassword) {
+			var alertPopup = $ionicPopup.alert({
+				title: "Error!",
+			 	template: "Email or passwords do not match."
+		   	});
+		} else {
+			auth.$createUserWithEmailAndPassword($scope.signUp.email, $scope.signUp.password)
+			.then(function(firebaseUser) {
+				var alertPopup = $ionicPopup.alert({
+					title: "Success!",
+			 		template: "Send Friend account created successfully, you can now save drafts."  
+		   		});
+				
+				$scope.signUp.email = null;
+				$scope.signUp.confirmEmail = null;
+				$scope.signUp.password = null;
+				$scope.signUp.confirmPassword = null;
+				
+				alertPopup.then(function(res) {
+                  
+                  //create object to save in local storage
+                  $scope.data = {
+                    "uid": firebaseUser.uid,
+                  };
+
+                  //save in local storage
+                  window.localStorage.setItem("STORAGE.SENDFRIEND.KEY", JSON.stringify($scope.data));
+                  
+     			  $state.go("app.setup", {});
+   				});
+				
+			}).catch(function(error) {
+				var alertPopup = $ionicPopup.alert({
+					title: "Error!",
+			 		template: error 
+		   		});
+			});	
+		}
+	};
 })
