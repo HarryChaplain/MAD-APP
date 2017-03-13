@@ -1,0 +1,22 @@
+<ion-view view-title="Send Friend Account Sign Up">
+  <ion-content padding="true">
+	      
+    <label class="item item-input">
+        <input type="email" placeholder="Email" ng-model="signUp.email">
+    </label>
+	  
+  	<label class="item item-input">
+        <input type="email" placeholder="Re-Enter Email" ng-model="signUp.confirmEmail">
+    </label>
+    
+    <label class="item item-input">
+        <input type="password" placeholder="Password" ng-model="signUp.password">
+    </label>
+	  
+	<label class="item item-input">
+        <input type="password" placeholder="Re-Enter Password" ng-model="signUp.confirmPassword">
+    </label>
+    
+    <button class="button button-block button-positive" ng-click="signUp()">Sign Up</button>
+  </ion-content>
+</ion-view>
