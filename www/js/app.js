@@ -33,12 +33,12 @@ angular.module('starter', [
 .config(function($stateProvider, $urlRouterProvider) {
 	// Initialize Firebase
 	var config = {
-		apiKey: "AIzaSyAHKBEJ_kiTwloM_gq2ETqsQYtS3T9lnIM",
-		authDomain: "mad-account.firebaseapp.com",
-		databaseURL: "https://mad-account.firebaseio.com",
-		storageBucket: "mad-account.appspot.com",
-		messagingSenderId: "1075735435497"
-	};
+      apiKey: "AIzaSyBV5PvXFlyFT-E34swOOX2BYqfaTwjicxI",
+      authDomain: "mad-account-89bc1.firebaseapp.com",
+      databaseURL: "https://mad-account-89bc1.firebaseio.com",
+      storageBucket: "mad-account-89bc1.appspot.com",
+      messagingSenderId: "492442337793"
+    };
 	firebase.initializeApp(config);
 })
 
@@ -61,6 +61,17 @@ $stateProvider
       }
     }
   })
+
+  .state('app.drafts', {
+    url: '/drafts',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/drafts.html',
+        controller: 'DraftsCtrl'
+      }
+    }
+  })
+
   .state('app.setup', {
       url: '/setup',
       cache: false,
