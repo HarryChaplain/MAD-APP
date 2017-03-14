@@ -475,9 +475,6 @@ angular.module('starter.controllers', [])
       });
       return;
     }
-<<<<<<< HEAD
-
-=======
 
     $scope.draftId = Draft.getDraftId();
     if($scope.draftId != "") {
@@ -510,7 +507,6 @@ angular.module('starter.controllers', [])
       return;
     }
 
->>>>>>> eb34db9ab3c37101bc5f91f405f5758e7c9dc2a8
     //get reference to database
     var ref = firebase.database().ref("users/" + $scope.sendFriendUID.firebaseUser.uid + "/drafts");
     var list = $firebaseArray(ref);
@@ -937,9 +933,6 @@ angular.module('starter.controllers', [])
       }
      });
   };
-<<<<<<< HEAD
-
-=======
 
   $scope.continueDraft = function(draft) {
     //set service param
@@ -947,5 +940,4 @@ angular.module('starter.controllers', [])
     $state.go("app.post", {});
   };
 
->>>>>>> eb34db9ab3c37101bc5f91f405f5758e7c9dc2a8
 })
