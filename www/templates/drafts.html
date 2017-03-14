@@ -4,7 +4,7 @@
     <!-- Popualtes drafts -->
     <div ng-repeat="(key, value) in drafts" class="card">
       <div class="item item-text-wrap">
-        <h1>{{value.reviewContent}}</h1>
+        <h1>{{value.reviewTitle}}</h1>
         <button class="button button-positive" ng-click="continueDraft(key)">Continue</button>
         <button class="button button-assertive" ng-click="deleteDraft(key)">Delete</button>
       </div>
