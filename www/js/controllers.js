@@ -67,7 +67,7 @@ angular.module('starter.controllers', [])
 })
 
 
-.controller('PostCtrl', function($scope, $cordovaEmailComposer, $ionicPopup, $http, $twitterApi, $cordovaCamera, Copy) {
+.controller('PostCtrl', function($scope, $cordovaEmailComposer, $ionicPopup, $http, $twitterApi, $cordovaCamera, Copy, $firebaseArray, $ionicPopup) {
 
   //array of places to post review to
   $scope.postList = [];
@@ -91,7 +91,7 @@ angular.module('starter.controllers', [])
   $scope.twitterToken = JSON.parse(window.localStorage.getItem(twitterKey));
   var clientId = '1HTt2CDZ9T8E9Swqk0zeNewJ3';
   var clientSecret = 'nWXiDdFMRi6SpamRHvvc0WFSqX0vLbhp9PCUxMB0YWf6vN6QSm';
-
+  
   //for pop up when posting
   $scope.showPopUp = function(){
     // An elaborate, custom popup
@@ -391,7 +391,58 @@ angular.module('starter.controllers', [])
       console.log("tweeted");
     });
   };
+  
+  $scope.saveAsDraft = function() {
+    //send friend id
+    var sendFriendKey = "STORAGE.SENDFRIEND.KEY";
+    $scope.sendFriendUID = JSON.parse(window.localStorage.getItem(sendFriendKey));
+    
+    //simple validation
+    if($scope.postData.title == "" || $scope.postData.body == "") {
+      var alertPopup = $ionicPopup.alert({
+        title: "Error!",
+        template: "Form elements should not be empty."
+      });
+      return;
+    }
+    
+    if($scope.sendFriendUID == undefined) {
+      console.log("null");
+      var alertPopup = $ionicPopup.alert({
+        title: "Error!",
+        template: "Please setup your Send Friend account."
+      });
+      return;
+    }
+        
+    //get reference to database
+    var ref = firebase.database().ref("users/" + $scope.sendFriendUID.firebaseUser.uid + "/drafts");
+    var list = $firebaseArray(ref);
+     
+    //create draft to save
+    $scope.draft = {
+      "reviewTitle": $scope.postData.title,
+      "reviewContent": $scope.postData.body
+    };
+        
+    //save draft
+    list.$add($scope.draft).then(function(ref) {
+      var id = ref.key;
+      console.log("added record with id " + id);
+      list.$indexFor(id); // returns location in the array
+    });
+    
+    //clear form elements
+    $scope.postData.title = "";
+    $scope.postData.body = "";
 
+    //show informational message
+    var alertPopup = $ionicPopup.alert({
+      title: "Saved!",
+      template: "Review has been saved as draft."
+    });
+  };
+  
 })
 
 .controller('SetupCtrl', function($scope, $cordovaOauth, $twitterApi, $http, $ionicPopup, $firebaseObject, $firebaseAuth) {
@@ -601,7 +652,7 @@ angular.module('starter.controllers', [])
 
                   //create object to save in local storage
                   $scope.data = {
-                    "uid": firebaseUser.uid,
+                    "firebaseUser": firebaseUser,
                   };
 
                   //save in local storage
@@ -711,7 +762,7 @@ angular.module('starter.controllers', [])
 
                   //create object to save in local storage
                   $scope.data = {
-                    "uid": firebaseUser.uid,
+                    "firebaseUser": firebaseUser,
                   };
 
                   //save in local storage
@@ -728,4 +779,67 @@ angular.module('starter.controllers', [])
 			});
 		}
 	};
+})
+
+.controller('DraftsCtrl', function($scope, $firebaseObject, $firebaseArray, $ionicPopup){
+  //send friend id
+  var sendFriendKey = "STORAGE.SENDFRIEND.KEY";
+  $scope.sendFriendUID = JSON.parse(window.localStorage.getItem(sendFriendKey));
+  
+  if($scope.sendFriendUID == undefined) {
+    var alertPopup = $ionicPopup.alert({
+      title: "Warning!",
+      template: "Send Friend acccount not setup, no drafts to view."
+    });
+    return;
+  }
+  
+  $scope.getDrafts = function() {
+    //get reference to database
+    var ref = firebase.database().ref("users/" + $scope.sendFriendUID.firebaseUser.uid);
+    var obj = $firebaseObject(ref);
+
+    //get list
+    obj.$loaded()
+    .then(function(data) {
+      $scope.drafts = data.drafts;
+      console.log(data.drafts);
+    })
+    .catch(function(error) {
+      var alertPopup = $ionicPopup.alert({
+        title: "Error!",
+        template: error
+      });
+      console.error("Error:" + error);
+    });
+  };
+  
+  $scope.getDrafts();
+  
+  //delete draft
+  $scope.deleteDraft = function(draft) {
+    var confirmPopup = $ionicPopup.confirm({
+      title: "Delete Draft?",
+      template: "Are you sure you want to delete draft?"
+    });
+
+    confirmPopup.then(function(res) {
+      if(res) {
+        //get reference to database
+        var ref = firebase.database().ref("users/" + $scope.sendFriendUID.firebaseUser.uid + "/drafts/" + draft);    
+        var obj = $firebaseObject(ref);
+    
+        //remove object from database
+        obj.$remove().then(function(ref) {
+          console.log("removed");
+        }, function(error) {
+          console.log("Error:", error);
+        });
+    
+        //update list
+        $scope.getDrafts();
+      }
+     });
+  };
+  
 })

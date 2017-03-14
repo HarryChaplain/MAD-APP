@@ -24,13 +24,20 @@
       </div>
     <button id="button1" class="button button-block button-positive" ng-click="showPopUp()">Post</button>
       <button class="button button-block button-positive" ng-click="paste()">Paste Data</button>
+
       <!-- IGNORE THIS FOR NOW IM STILL WORKING ON IT -->
       <button id="button1" class="button button-block button-positive" ng-click="postImageToFacebook()">Post Image to facebook</button>
+
+
+
+      <button class="button button-block button-positive" ng-click="saveAsDraft()">Save As Draft</button>
+
       <div id="buttonRange" class="item range buttonRange">
               <i class="icon ion-minus" ></i>
                 <input type="range" name="volume" ng-model="value" min="50" max="100" value="33" ng-model="test"  on-release="changeButtonHeight(value);">
               <i class="icon ion-plus"></i>
       </div>
+
     </form>
   </ion-content>
 </ion-view>
