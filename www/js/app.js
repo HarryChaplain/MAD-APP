@@ -53,7 +53,8 @@ $stateProvider
 
   .state('app.post', {
     url: '/post',
-    cache: true,
+    //cache: true,
+    cache: false,
     views: {
       'menuContent': {
         templateUrl: 'templates/post.html',
@@ -64,6 +65,7 @@ $stateProvider
 
   .state('app.drafts', {
     url: '/drafts',
+    cache: false,
     views: {
       'menuContent': {
         templateUrl: 'templates/drafts.html',
