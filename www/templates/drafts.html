@@ -1,0 +1,14 @@
+<ion-view view-title="Drafts">
+  <ion-content padding="true">
+    
+    <!-- Popualtes drafts -->
+    <div ng-repeat="(key, value) in drafts" class="card">
+      <div class="item item-text-wrap">
+        <h1>{{value.reviewContent}}</h1>
+        <button class="button button-positive" ng-click="continueDraft(key)">Continue</button>
+        <button class="button button-assertive" ng-click="deleteDraft(key)">Delete</button>
+      </div>
+    </div>
+    
+  </ion-content>
+</ion-view>
