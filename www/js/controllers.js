@@ -234,6 +234,28 @@ angular.module('starter.controllers', [])
     });
   };
 
+  $scope.postImageToFacebook = function(){
+  // var message = $scope.postData.body;
+  alert("posting image");
+  var imgURL="https://s3-us-west-1.amazonaws.com/powr/defaults/image-slider2.jpg";//change with your external photo url
+  $http({
+    url:'https://graph.facebook.com/v2.8/me/photos',
+    method: "POST",
+    data:{
+      access_token: $scope.facebookToken.config.params.access_token,
+      url: imgURL,
+      caption: "Testing API Facebook app post - blank image #1224"
+    }
+  }).then(function(response) {
+    alert(JSON.stringify(response));
+    $scope.postData.title = "";
+    $scope.postData.body = "";
+  },
+  function(response) {
+    console.log(response);
+  });
+};
+
   $scope.postFile = function() {
     //create our HTML to generate PDF report
     // $scope.html = "<!DOCTYPE html>" +
