@@ -91,7 +91,7 @@ angular.module('starter.controllers', [])
   $scope.twitterToken = JSON.parse(window.localStorage.getItem(twitterKey));
   var clientId = '1HTt2CDZ9T8E9Swqk0zeNewJ3';
   var clientSecret = 'nWXiDdFMRi6SpamRHvvc0WFSqX0vLbhp9PCUxMB0YWf6vN6QSm';
-  
+
   //for pop up when posting
   $scope.showPopUp = function(){
     // An elaborate, custom popup
@@ -217,9 +217,11 @@ angular.module('starter.controllers', [])
 
 
   $scope.postToFacebook = function(){
+    var title = $scope.postData.title;
     var message = $scope.postData.body;
+    var post = title+", "+message;
     $http({
-      url:'https://graph.facebook.com/v2.8/me/feed?method=post&message='+encodeURIComponent(message),
+      url:'https://graph.facebook.com/v2.8/me/feed?method=post&message='+encodeURIComponent(post),
       method: "POST",
       data:{
         access_token: $scope.facebookToken.config.params.access_token
@@ -391,12 +393,12 @@ angular.module('starter.controllers', [])
       console.log("tweeted");
     });
   };
-  
+
   $scope.saveAsDraft = function() {
     //send friend id
     var sendFriendKey = "STORAGE.SENDFRIEND.KEY";
     $scope.sendFriendUID = JSON.parse(window.localStorage.getItem(sendFriendKey));
-    
+
     //simple validation
     if($scope.postData.title == "" || $scope.postData.body == "") {
       var alertPopup = $ionicPopup.alert({
@@ -405,7 +407,7 @@ angular.module('starter.controllers', [])
       });
       return;
     }
-    
+
     if($scope.sendFriendUID == undefined) {
       console.log("null");
       var alertPopup = $ionicPopup.alert({
@@ -414,24 +416,24 @@ angular.module('starter.controllers', [])
       });
       return;
     }
-        
+
     //get reference to database
     var ref = firebase.database().ref("users/" + $scope.sendFriendUID.firebaseUser.uid + "/drafts");
     var list = $firebaseArray(ref);
-     
+
     //create draft to save
     $scope.draft = {
       "reviewTitle": $scope.postData.title,
       "reviewContent": $scope.postData.body
     };
-        
+
     //save draft
     list.$add($scope.draft).then(function(ref) {
       var id = ref.key;
       console.log("added record with id " + id);
       list.$indexFor(id); // returns location in the array
     });
-    
+
     //clear form elements
     $scope.postData.title = "";
     $scope.postData.body = "";
@@ -442,7 +444,7 @@ angular.module('starter.controllers', [])
       template: "Review has been saved as draft."
     });
   };
-  
+
 })
 
 .controller('SetupCtrl', function($scope, $cordovaOauth, $twitterApi, $http, $ionicPopup, $firebaseObject, $firebaseAuth) {
@@ -785,7 +787,7 @@ angular.module('starter.controllers', [])
   //send friend id
   var sendFriendKey = "STORAGE.SENDFRIEND.KEY";
   $scope.sendFriendUID = JSON.parse(window.localStorage.getItem(sendFriendKey));
-  
+
   if($scope.sendFriendUID == undefined) {
     var alertPopup = $ionicPopup.alert({
       title: "Warning!",
@@ -793,7 +795,7 @@ angular.module('starter.controllers', [])
     });
     return;
   }
-  
+
   $scope.getDrafts = function() {
     //get reference to database
     var ref = firebase.database().ref("users/" + $scope.sendFriendUID.firebaseUser.uid);
@@ -813,9 +815,9 @@ angular.module('starter.controllers', [])
       console.error("Error:" + error);
     });
   };
-  
+
   $scope.getDrafts();
-  
+
   //delete draft
   $scope.deleteDraft = function(draft) {
     var confirmPopup = $ionicPopup.confirm({
@@ -826,20 +828,20 @@ angular.module('starter.controllers', [])
     confirmPopup.then(function(res) {
       if(res) {
         //get reference to database
-        var ref = firebase.database().ref("users/" + $scope.sendFriendUID.firebaseUser.uid + "/drafts/" + draft);    
+        var ref = firebase.database().ref("users/" + $scope.sendFriendUID.firebaseUser.uid + "/drafts/" + draft);
         var obj = $firebaseObject(ref);
-    
+
         //remove object from database
         obj.$remove().then(function(ref) {
           console.log("removed");
         }, function(error) {
           console.log("Error:", error);
         });
-    
+
         //update list
         $scope.getDrafts();
       }
      });
   };
-  
+
 })
