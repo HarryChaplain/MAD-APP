@@ -26,7 +26,7 @@ angular.module('starter', [
     if (window.StatusBar) {
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
-    }    
+    }
   });
 })
 
@@ -39,10 +39,10 @@ angular.module('starter', [
       storageBucket: "mad-account-89bc1.appspot.com",
       messagingSenderId: "492442337793"
     };
-	firebase.initializeApp(config); 
+	firebase.initializeApp(config);
 })
 
-.config(function($stateProvider, $urlRouterProvider) {	
+.config(function($stateProvider, $urlRouterProvider) {
 $stateProvider
     .state('app', {
     url: '/app',
@@ -85,7 +85,7 @@ $stateProvider
 
     .state('app.themes', {
       url: '/themes',
-      cache: false,
+      cache: true,
       views: {
         'menuContent': {
           templateUrl: 'templates/themes.html',

@@ -1,0 +1,50 @@
+
+.item-complex .item-content, .item-radio .item-content {
+  font-weight: 900;
+  font-size: x-large;
+}
+
+.item-input input, .item-input textarea {
+    font-weight: 900;
+    width: 100%;
+    font-size: x-large;
+}
+
+.list:last-child {
+    margin-bottom: 0px;
+    font-weight: 900;
+    font-size: 20px;
+}
+
+.input-label {
+    display: table;
+    padding: 7px 10px 7px 0px;
+    max-width: 200px;
+    width: 35%;
+    color: #444;
+    font-size: 20px;
+    font-weight: 900;
+}
+
+/*.button.button-positive {
+    border-color: transparent;
+    background-color: #387ef5;
+    color: #fff;
+    font-weight: 900;
+    font-size: 20px;
+}*/
+
+.col {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -moz-box-flex: 1;
+    -moz-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    display: block;
+    padding: 5px;
+    width: 100%;
+    font-weight: 900;
+    font-size: 20px;
+    text-align: center;
+}
