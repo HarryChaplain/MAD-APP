@@ -934,14 +934,10 @@ angular.module('starter.controllers', [])
      });
   };
 
-
-
-
   $scope.continueDraft = function(draft) {
     //set service param
     Draft.setDraftId(draft);
     $state.go("app.post", {});
   };
-
 
 })
