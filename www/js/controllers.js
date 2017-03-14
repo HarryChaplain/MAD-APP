@@ -77,19 +77,23 @@ angular.module('starter.controllers', [])
   $scope.email = {
     enabled: false
   };
-  
+
+  $scope.rating = {};
+  $scope.rating.rate = 3;
+  $scope.rating.max = 5;
+
   $scope.draftId = Draft.getDraftId();
   if($scope.draftId != "") {
     //send friend id
     var sendFriendKey = "STORAGE.SENDFRIEND.KEY";
     $scope.sendFriendUID = JSON.parse(window.localStorage.getItem(sendFriendKey));
-    
+
     console.log("not null");
     //get draft
     //get reference to database
-    var ref = firebase.database().ref("users/" + $scope.sendFriendUID.firebaseUser.uid + "/drafts/" + $scope.draftId);    
+    var ref = firebase.database().ref("users/" + $scope.sendFriendUID.firebaseUser.uid + "/drafts/" + $scope.draftId);
     var obj = $firebaseObject(ref);
-    
+
     //get list
     obj.$loaded()
     .then(function(data) {
@@ -104,13 +108,13 @@ angular.module('starter.controllers', [])
       console.error("Error:" + error);
     });
   }
-  
+
   //clear selected draft on state change
-  $scope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams) { 
+  $scope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams) {
     Draft.setDraftId("");
     console.log("state change");
   });
-  
+
   //dropbox token information
   var dropboxKey = 'STORAGE.DROPBOX.KEY';
   $scope.dropboxToken = JSON.parse(window.localStorage.getItem(dropboxKey));
@@ -124,7 +128,7 @@ angular.module('starter.controllers', [])
   $scope.twitterToken = JSON.parse(window.localStorage.getItem(twitterKey));
   var clientId = '1HTt2CDZ9T8E9Swqk0zeNewJ3';
   var clientSecret = 'nWXiDdFMRi6SpamRHvvc0WFSqX0vLbhp9PCUxMB0YWf6vN6QSm';
-  
+
   //for pop up when posting
   $scope.showPopUp = function(){
     // An elaborate, custom popup
@@ -171,7 +175,9 @@ angular.module('starter.controllers', [])
     };
 
     $cordovaCamera.getPicture(options).then(function(imageData) {
+
       $scope.postData.attachments.push("base64:img.jpg//" + imageData) ;
+      console.log("THIS IS IMAGE"+ $scope.postData.attachments[0]);
       $scope.noOfAttachments++;
     }, function(error) {
       console.error(error);
@@ -181,13 +187,35 @@ angular.module('starter.controllers', [])
   $scope.paste = function(){
     var pasteData = Copy.getCopy();
 
-    if(pasteData.eventname){
+    if(pasteData.eventname){//paste for skiddle event
       $scope.postData.title = "My Review Of: " + pasteData.eventname;
       $scope.postData.body =  pasteData.description + "\n\n" + "Venue: " + pasteData.venue.name;
-    }else{
+      getBase64Image(pasteData.largeimageurl);
+    }else{//paste for omdb movie
       $scope.postData.title = "My Review Of: " + pasteData.Title;
       $scope.postData.body =  pasteData.Plot + "\n\n" + "Released: " + pasteData.Released;
+      getBase64Image(pasteData.Poster);
     }
+
+  }
+
+  function getBase64Image(img) {
+    var canvas = document.createElement("canvas");
+
+    var ctx = canvas.getContext('2d');
+    var image = new Image;
+    image.onload = function(){
+      canvas.width=image.width;
+      canvas.height=image.height;
+      ctx.drawImage(image,0,0,image.width,image.height,0,0,image.width,image.height ); // Or at whatever offset you like
+      var fullQuality = canvas.toDataURL('image/jpeg', 1.0);
+      var res = fullQuality.replace("data:image/jpeg;base64,","base64:img.jpg//" )
+      $scope.postData.attachments.push(res);
+      $scope.noOfAttachments++;
+    };
+    image.setAttribute('crossOrigin', 'anonymous');
+    image.src = img;
+
 
   }
 
@@ -218,6 +246,23 @@ angular.module('starter.controllers', [])
 
   //posts to social media and email
   $scope.post = function() {
+    switch($scope.rating.rate){
+      case 1:
+        $scope.postData.body = $scope.postData.body + "<br><br> I rate this 1 star"
+        break;
+      case 2:
+        $scope.postData.body = $scope.postData.body + "<br><br> I rate this 2 stars"
+        break;
+      case 3:
+        $scope.postData.body = $scope.postData.body + "<br><br> I rate this 3 stars"
+        break;
+      case 4:
+        $scope.postData.body = $scope.postData.body + "<br><br> I rate this 4 stars"
+        break;
+      case 5:
+        $scope.postData.body = $scope.postData.body + "<br><br> I rate this 5 stars"
+        break;
+    }
 
 
     for(i=0;i<$scope.postList.length;i++) {
@@ -243,7 +288,7 @@ angular.module('starter.controllers', [])
         $scope.noOfAttachments = 0;
       }, this);
     }
-    
+
     //remove draft just posted from database
     var draftId = Draft.getDraftId();
     if(draftId != "") {
@@ -251,9 +296,9 @@ angular.module('starter.controllers', [])
       //send friend id
       var sendFriendKey = "STORAGE.SENDFRIEND.KEY";
       $scope.sendFriendUID = JSON.parse(window.localStorage.getItem(sendFriendKey));
-    
+
       //get references to draft
-      var ref = firebase.database().ref("users/" + $scope.sendFriendUID.firebaseUser.uid + "/drafts/" + $scope.draftId);    
+      var ref = firebase.database().ref("users/" + $scope.sendFriendUID.firebaseUser.uid + "/drafts/" + $scope.draftId);
       var obj = $firebaseObject(ref);
 
       //remove draft from db
@@ -262,11 +307,11 @@ angular.module('starter.controllers', [])
       }, function(error) {
         console.log("Error:" + error);
       });
-      
+
       //clear form variables
       $scope.postData.title = "";
       $scope.postData.body = "";
-      
+
       //clear variable
       Draft.setDraftId("");
     }
@@ -451,12 +496,12 @@ angular.module('starter.controllers', [])
       console.log("tweeted");
     });
   };
-  
+
   $scope.saveAsDraft = function() {
     //send friend id
     var sendFriendKey = "STORAGE.SENDFRIEND.KEY";
     $scope.sendFriendUID = JSON.parse(window.localStorage.getItem(sendFriendKey));
-    
+
     //simple validation
     if($scope.postData.title == "" || $scope.postData.body == "") {
       var alertPopup = $ionicPopup.alert({
@@ -465,7 +510,7 @@ angular.module('starter.controllers', [])
       });
       return;
     }
-    
+
     if($scope.sendFriendUID == undefined) {
       console.log("null");
       var alertPopup = $ionicPopup.alert({
@@ -474,13 +519,13 @@ angular.module('starter.controllers', [])
       });
       return;
     }
-    
+
     $scope.draftId = Draft.getDraftId();
     if($scope.draftId != "") {
       console.log("not null");
       //get draft
       //get reference to database
-      var ref = firebase.database().ref("users/" + $scope.sendFriendUID.firebaseUser.uid + "/drafts/" + $scope.draftId);    
+      var ref = firebase.database().ref("users/" + $scope.sendFriendUID.firebaseUser.uid + "/drafts/" + $scope.draftId);
       var obj = $firebaseObject(ref);
 
       //update draft
@@ -491,38 +536,38 @@ angular.module('starter.controllers', [])
       }, function(error) {
         console.log("Error:" + error);
       });
-      
+
       //show update
       var alertPopup = $ionicPopup.alert({
         title: "Success!",
         template: "Updated draft."
       });
-      
+
       //clear form variables
       $scope.postData.title = "";
       $scope.postData.body = "";
-      
+
       Draft.setDraftId("");
       return;
     }
-        
+
     //get reference to database
     var ref = firebase.database().ref("users/" + $scope.sendFriendUID.firebaseUser.uid + "/drafts");
     var list = $firebaseArray(ref);
-     
+
     //create draft to save
     $scope.draft = {
       "reviewTitle": $scope.postData.title,
       "reviewContent": $scope.postData.body
     };
-        
+
     //save draft
     list.$add($scope.draft).then(function(ref) {
       var id = ref.key;
       console.log("added record with id " + id);
       list.$indexFor(id); // returns location in the array
     });
-    
+
     //clear form elements
     $scope.postData.title = "";
     $scope.postData.body = "";
@@ -533,7 +578,7 @@ angular.module('starter.controllers', [])
       template: "Review has been saved as draft."
     });
   };
-  
+
 })
 
 .controller('SetupCtrl', function($scope, $cordovaOauth, $twitterApi, $http, $ionicPopup, $firebaseObject, $firebaseAuth) {
@@ -876,7 +921,7 @@ angular.module('starter.controllers', [])
   //send friend id
   var sendFriendKey = "STORAGE.SENDFRIEND.KEY";
   $scope.sendFriendUID = JSON.parse(window.localStorage.getItem(sendFriendKey));
-  
+
   if($scope.sendFriendUID == undefined) {
     var alertPopup = $ionicPopup.alert({
       title: "Warning!",
@@ -884,7 +929,7 @@ angular.module('starter.controllers', [])
     });
     return;
   }
-  
+
   $scope.getDrafts = function() {
     //get reference to database
     var ref = firebase.database().ref("users/" + $scope.sendFriendUID.firebaseUser.uid);
@@ -904,9 +949,9 @@ angular.module('starter.controllers', [])
       console.error("Error:" + error);
     });
   };
-  
+
   $scope.getDrafts();
-  
+
   //delete draft
   $scope.deleteDraft = function(draft) {
     var confirmPopup = $ionicPopup.confirm({
@@ -917,26 +962,26 @@ angular.module('starter.controllers', [])
     confirmPopup.then(function(res) {
       if(res) {
         //get reference to database
-        var ref = firebase.database().ref("users/" + $scope.sendFriendUID.firebaseUser.uid + "/drafts/" + draft);    
+        var ref = firebase.database().ref("users/" + $scope.sendFriendUID.firebaseUser.uid + "/drafts/" + draft);
         var obj = $firebaseObject(ref);
-    
+
         //remove object from database
         obj.$remove().then(function(ref) {
           console.log("removed");
         }, function(error) {
           console.log("Error:", error);
         });
-    
+
         //update list
         $scope.getDrafts();
       }
      });
   };
-  
+
   $scope.continueDraft = function(draft) {
     //set service param
     Draft.setDraftId(draft);
     $state.go("app.post", {});
   };
-  
+
 })

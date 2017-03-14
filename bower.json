@@ -9,6 +9,7 @@
     "ngCordova": "^0.1.27-alpha",
     "ng-twitter-api": "^0.1.5",
     "ng-cordova-oauth": "^0.3.0",
-    "angularfire": "^2.3.0"
+    "angularfire": "^2.3.0",
+    "ionic-rating": "^0.3.0"
   }
 }

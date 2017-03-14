@@ -5,6 +5,7 @@ angular.module('starter.services', [])
 
     copy.setCopy = function(reviewObject){
       copy = reviewObject;
+      console.log(copy);
     }
 
     copy.getCopy = function(){
