@@ -1,3 +1,5 @@
+
+
 .bar.bar-positive{
   background-color: #ef473a;
 }
@@ -6,7 +8,24 @@
   background-color: #ef473a;
 }
 
-.overflow-scroll > .scroll{
+/*background colour chaner*/
+/*.overflow-scroll > .scroll{
   background-color: #ef473a ;
   color: white;
+}*/
+
+.buttonRange{
+  visibility:hidden;
+}
+
+.button.button-positive {
+    border-color: transparent;
+    background-color:  #ef473a;
+    color: #fff;
+}
+
+.button {
+    border-color: transparent;
+    background-color:  #ef473a;
+    color: #fff;
 }

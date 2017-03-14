@@ -6,25 +6,61 @@ angular.module('starter.controllers', [])
     $state.go('app.post');
   };
 
+  $scope.changeButtonHeight = function(value){
+    // document.getElementById("button").style.height = value+"px";
+    // document.getElementById("buttonBar").style.height = value+"px";
+    document.getElementById("button1").style.height = value+"px";
+    document.getElementById("button2").style.height = value+"px";
+    document.getElementById("button3").style.height = value+"px";
+
+    // console.log(value);
+    if(value > 80){
+      document.getElementById("button1").style.fontSize = 30+"px";
+      document.getElementById("button2").style.fontSize = 30+"px";
+      document.getElementById("button3").style.fontSize = 30+"px";
+    }
+  };
+
 })
 
 .controller('ThemesCtrl', function($scope, $ionicModal, $timeout, $state) {
-  var stylesheet = document.getElementById('stylesheet');
+  $scope.selectUpdated = function(optionSelected) {
+    var stylesheet = document.getElementById('stylesheet');
 
-  $scope.setTheme = function(colour){
-    switch(colour) {
-      case "red":
-        stylesheet.href = "css/redStyle.css";
-        break;
-      case "yellow":
-      stylesheet.href = "css/yellowStyle.css";
-        break;
-      case "green":
-      stylesheet.href = "css/greenStyle.css";
-        break;
-      case "default":
-      stylesheet.href = "css/defaultStyle.css";
-        break;
+    switch (optionSelected) {
+            case 'default':
+                stylesheet.href = "css/defaultStyle.css";
+                break;
+            case 'green':
+                stylesheet.href = "css/greenStyle.css";
+                break;
+            case 'yellow':
+                stylesheet.href = "css/yellowStyle.css";
+                break;
+            case 'red':
+                stylesheet.href = "css/redStyle.css";
+                break;
+            default:
+        }
+  };
+
+  $scope.checkBoldFont = function(value){
+    var stylesheet = document.getElementById('boldFontStyle');
+
+    if(value === true){
+      stylesheet.href = "css/boldFontStyle.css";
+    }else{
+      stylesheet.href = "css/clear.css";
+    }
+  }
+
+  $scope.checkBigButtons = function(value){
+    var stylesheet = document.getElementById('bigButtonStyle');
+
+    if(value === true){
+      stylesheet.href = "css/bigButtonsStyle.css";
+    }else{
+      stylesheet.href = "css/clear.css";
     }
   }
 
@@ -236,12 +272,12 @@ angular.module('starter.controllers', [])
 
         //remove appended text that is required for email, which then equals base64 string
         $scope.stringAttachment = $scope.postData.attachments[$scope.increment].replace("base64:img.jpg//", "");
-  
+
         $scope.image = "<section style='text-align: center; margin-top: 20px;'>" +
         //"<img style='width: 50%' src='data:image/jpeg;base64," + $scope.postData.attachments[$scope.increment] + "'>" +
         "<img style='width: 50%' src='data:image/jpeg;base64," + $scope.stringAttachment + "'>" +
         "</section>";
-        
+
         //append this to html
         $scope.html = $scope.html + $scope.image;
       }
@@ -361,7 +397,7 @@ angular.module('starter.controllers', [])
   //wordpress token information
   var wordpressKey = "STORAGE.WORDPRESS.KEY";
   $scope.wordpressToken = JSON.parse(window.localStorage.getItem(wordpressKey));
-	
+
   //send friend information
   var sendFriendKey = "STORAGE.SENDFRIEND.KEY";
   $scope.sendFriendUID = JSON.parse(window.localStorage.getItem(sendFriendKey));
@@ -503,7 +539,7 @@ angular.module('starter.controllers', [])
       localStorage.removeItem(wordpressKey);
       $scope.wordpressToken = null;
     };
-  
+
     //*******************************************
     // Send Friend Account Setup
     //*******************************************
@@ -513,17 +549,17 @@ angular.module('starter.controllers', [])
       //do auth
       //if pass close
       // else relaunch modal and show error in modal html
-      
+
       var ref = firebase.database().ref();
       var firebasedata = $firebaseObject(ref);
       var auth = $firebaseAuth();
-      
+
       var template = '<input type="email" placeholder="Enter Email" ng-model="account.email">' +
       '<br>' +
       '<input type="password" placeholder="Enter Password" ng-model="account.password">';
-      
+
       $scope.account = {};
-      
+
       var myPopup = $ionicPopup.show({
         template: template,
         title: 'Enter Credentials',
@@ -540,7 +576,7 @@ angular.module('starter.controllers', [])
               } else {
                 auth.$signInWithEmailAndPassword($scope.account.email, $scope.account.password).then(function(firebaseUser) {
                   console.log("Signed in as:", firebaseUser.uid);
-                  
+
                   //create object to save in local storage
                   $scope.data = {
                     "uid": firebaseUser.uid,
@@ -549,7 +585,7 @@ angular.module('starter.controllers', [])
                   //save in local storage
                   $scope.sendFriendUID = $scope.data;
                   window.localStorage.setItem(sendFriendKey, JSON.stringify($scope.data));
-                  
+
                   //close popup
                   myPopup.close();
                 }).catch(function(error) {
@@ -563,7 +599,7 @@ angular.module('starter.controllers', [])
         ]
       });
     };
-  
+
     $scope.logoutOfSendFriend = function() {
       localStorage.removeItem(sendFriendKey);
       $scope.sendFriendUID = null;
@@ -641,16 +677,16 @@ angular.module('starter.controllers', [])
 			.then(function(firebaseUser) {
 				var alertPopup = $ionicPopup.alert({
 					title: "Success!",
-			 		template: "Send Friend account created successfully, you can now save drafts."  
+			 		template: "Send Friend account created successfully, you can now save drafts."
 		   		});
-				
+
 				$scope.signUp.email = null;
 				$scope.signUp.confirmEmail = null;
 				$scope.signUp.password = null;
 				$scope.signUp.confirmPassword = null;
-				
+
 				alertPopup.then(function(res) {
-                  
+
                   //create object to save in local storage
                   $scope.data = {
                     "uid": firebaseUser.uid,
@@ -658,16 +694,16 @@ angular.module('starter.controllers', [])
 
                   //save in local storage
                   window.localStorage.setItem("STORAGE.SENDFRIEND.KEY", JSON.stringify($scope.data));
-                  
+
      			  $state.go("app.setup", {});
    				});
-				
+
 			}).catch(function(error) {
 				var alertPopup = $ionicPopup.alert({
 					title: "Error!",
-			 		template: error 
+			 		template: error
 		   		});
-			});	
+			});
 		}
 	};
 })
