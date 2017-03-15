@@ -290,6 +290,8 @@ angular.module('starter.controllers', [])
         console.log(response);
         $scope.postData.title = "";
         $scope.postData.body = "";
+        $scope.postData.attachmets = [];
+        $scope.noOfAttachments = 0;
       },
       function(response) { // optional
         alert(response);
