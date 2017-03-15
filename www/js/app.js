@@ -11,7 +11,8 @@ angular.module('starter', [
 	'ngCordova',
   	'ngCordovaOauth',
   	'ngTwitter',
-    'firebase'
+    'firebase',
+		'ionic.rating'
 ])
 
 .run(function($ionicPlatform) {

@@ -13,6 +13,9 @@
       <label class="item item-input post-textBox">
           <textarea type="text" rows="10" cols="5" placeholder="Review" ng-model="postData.body"></textarea>
       </label>
+      <div class="padding" align="center">
+        <rating ng-model="rating.rate" max="rating.max"></rating>
+      </div>
       <div class="col">Files Attached: {{noOfAttachments}}</div>
       <div class="button-bar padding-top">
 

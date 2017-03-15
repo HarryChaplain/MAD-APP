@@ -78,6 +78,12 @@ angular.module('starter.controllers', [])
     enabled: false
   };
 
+
+  $scope.rating = {};
+  $scope.rating.rate = 3;
+  $scope.rating.max = 5;
+
+
   $scope.draftId = Draft.getDraftId();
   if($scope.draftId != "") {
     //send friend id
@@ -171,7 +177,9 @@ angular.module('starter.controllers', [])
     };
 
     $cordovaCamera.getPicture(options).then(function(imageData) {
+
       $scope.postData.attachments.push("base64:img.jpg//" + imageData) ;
+      console.log("THIS IS IMAGE"+ $scope.postData.attachments[0]);
       $scope.noOfAttachments++;
     }, function(error) {
       console.error(error);
@@ -181,13 +189,35 @@ angular.module('starter.controllers', [])
   $scope.paste = function(){
     var pasteData = Copy.getCopy();
 
-    if(pasteData.eventname){
+    if(pasteData.eventname){//paste for skiddle event
       $scope.postData.title = "My Review Of: " + pasteData.eventname;
       $scope.postData.body =  pasteData.description + "\n\n" + "Venue: " + pasteData.venue.name;
-    }else{
+      getBase64Image(pasteData.largeimageurl);
+    }else{//paste for omdb movie
       $scope.postData.title = "My Review Of: " + pasteData.Title;
       $scope.postData.body =  pasteData.Plot + "\n\n" + "Released: " + pasteData.Released;
+      getBase64Image(pasteData.Poster);
     }
+
+  }
+
+  function getBase64Image(img) {
+    var canvas = document.createElement("canvas");
+
+    var ctx = canvas.getContext('2d');
+    var image = new Image;
+    image.onload = function(){
+      canvas.width=image.width;
+      canvas.height=image.height;
+      ctx.drawImage(image,0,0,image.width,image.height,0,0,image.width,image.height ); // Or at whatever offset you like
+      var fullQuality = canvas.toDataURL('image/jpeg', 1.0);
+      var res = fullQuality.replace("data:image/jpeg;base64,","base64:img.jpg//" )
+      $scope.postData.attachments.push(res);
+      $scope.noOfAttachments++;
+    };
+    image.setAttribute('crossOrigin', 'anonymous');
+    image.src = img;
+
 
   }
 
@@ -218,6 +248,23 @@ angular.module('starter.controllers', [])
 
   //posts to social media and email
   $scope.post = function() {
+    switch($scope.rating.rate){
+      case 1:
+        $scope.postData.body = $scope.postData.body + "<br><br> I rate this 1 star"
+        break;
+      case 2:
+        $scope.postData.body = $scope.postData.body + "<br><br> I rate this 2 stars"
+        break;
+      case 3:
+        $scope.postData.body = $scope.postData.body + "<br><br> I rate this 3 stars"
+        break;
+      case 4:
+        $scope.postData.body = $scope.postData.body + "<br><br> I rate this 4 stars"
+        break;
+      case 5:
+        $scope.postData.body = $scope.postData.body + "<br><br> I rate this 5 stars"
+        break;
+    }
 
 
     for(i=0;i<$scope.postList.length;i++) {
