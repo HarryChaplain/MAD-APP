@@ -196,6 +196,7 @@ angular.module('starter.controllers', [])
     }else{//paste for omdb movie
       $scope.postData.title = "My Review Of: " + pasteData.Title;
       $scope.postData.body =  pasteData.Plot + "\n\n" + "Released: " + pasteData.Released;
+
       getBase64Image(pasteData.Poster);
     }
 
@@ -334,7 +335,7 @@ angular.module('starter.controllers', [])
           access_token: $scope.facebookToken.config.params.access_token
         }
       }).then(function(response) {
-        console.log(response);
+        // console.log(response);
         $scope.postData.title = "";
         $scope.postData.body = "";
         $scope.postData.attachmets = [];
@@ -344,14 +345,17 @@ angular.module('starter.controllers', [])
         alert(response);
       });
     }else{
-      alert("posting image as well");
+
+      var pasteData = Copy.getCopy();
+      // alert(JSON.stringify(pasteData));
+      alert(pasteData.Poster);
       var imgURL="https://s3-us-west-1.amazonaws.com/powr/defaults/image-slider2.jpg";//change with your external photo url
       $http({
         url:'https://graph.facebook.com/v2.8/me/photos',
         method: "POST",
         data:{
           access_token: $scope.facebookToken.config.params.access_token,
-          url: imgURL,
+          url: pasteData.Poster,
           caption: post
         }
       }).then(function(response) {
@@ -359,7 +363,7 @@ angular.module('starter.controllers', [])
         $scope.postData.body = "";
       },
       function(response) {
-        alert(JSON.stringify(response));
+        // alert(JSON.stringify(response));
         console.log(response);
       });
     }
