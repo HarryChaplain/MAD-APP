@@ -188,6 +188,8 @@ angular.module('starter.controllers', [])
     });
   }
 
+  
+
   $scope.paste = function(){
     var pasteData = Copy.getCopy();
 
@@ -205,16 +207,11 @@ angular.module('starter.controllers', [])
   }
 
   $scope.markdown = function() {
-      $scope.postData.fbBody = $scope.postData.body;
       var text = $scope.postData.body;
       converter = new showdown.Converter();
       html = converter.makeHtml(text);
 
-      $scope.postData.convertedBody = html;
-  };
-
-  $scope.hideConvertedBody = function() {
-    $scope.postData.convertedBody = "";
+      $scope.postData.body = html;
   };
 
 
@@ -281,28 +278,28 @@ angular.module('starter.controllers', [])
   }
   //posts to social media and email
   $scope.post = function() {
-    //$scope.postData.body = $scope.postData.fbBody;
+    $scope.postData.fbBody = $scope.postData.body;
     $scope.markdown();
     switch($scope.rating.rate){
       case 1:
-        $scope.postData.body = $scope.postData.body + "<br><br> I rate this 1 star"
-        $scope.postData.fbBody = $scope.postData.fbBody + "\n I rate this 1 star"
+        $scope.postData.body = $scope.postData.body + "<br> I rate this 1 star"
+        $scope.postData.fbBody = $scope.postData.fbBody + "\n\n I rate this 1 star"
         break;
       case 2:
-        $scope.postData.body = $scope.postData.body + "<br><br> I rate this 2 stars"
-        $scope.postData.fbBody = $scope.postData.fbBody + "\n I rate this 2 star"
+        $scope.postData.body = $scope.postData.body + "<br> I rate this 2 stars"
+        $scope.postData.fbBody = $scope.postData.fbBody + "\n\n I rate this 2 star"
         break;
       case 3:
-        $scope.postData.body = $scope.postData.body + "<br><br> I rate this 3 stars"
-        $scope.postData.fbBody = $scope.postData.fbBody + "\n I rate this 3 star"
+        $scope.postData.body = $scope.postData.body + "<br> I rate this 3 stars"
+        $scope.postData.fbBody = $scope.postData.fbBody + "\n\n I rate this 3 star"
         break;
       case 4:
-        $scope.postData.body = $scope.postData.body + "<br><br> I rate this 4 stars"
-        $scope.postData.fbBody = $scope.postData.fbBody + "\n I rate this 4 star"
+        $scope.postData.body = $scope.postData.body + "<br> I rate this 4 stars"
+        $scope.postData.fbBody = $scope.postData.fbBody + "\n\n I rate this 4 star"
         break;
       case 5:
-        $scope.postData.body = $scope.postData.body + "<br><br> I rate this 5 stars"
-        $scope.postData.fbBody = $scope.postData.fbBody + "\n I rate this 5 star"
+        $scope.postData.body = $scope.postData.body + "<br> I rate this 5 stars"
+        $scope.postData.fbBody = $scope.postData.fbBody + "\n\n I rate this 5 star"
         break;
     }
 

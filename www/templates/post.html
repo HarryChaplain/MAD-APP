@@ -13,35 +13,47 @@
       <label class="item item-input post-textBox">
 
           <textarea id="sourceTA"  type="text" rows="10" cols="5" placeholder="Review" ng-model="postData.body" ng-show="postData.convertedBody == ''"></textarea>
-          <textarea id="sourceTA"  type="text" rows="10" cols="5" placeholder="Review" ng-model="postData.convertedBody" ng-show="postData.convertedBody != ''" ng-focus="hideConvertedBody()"></textarea>
 
-      </label><select ng-model ="translateData.fromLang" ng-options="language.languageName for language in languages track by language.languageCode"></select>
-        <select ng-model ="translateData.toLang" ng-options="language.languageName for language in languages track by language.languageCode"></select>
-
+      </label>
         {{toLang}}
       </label>
       <div class="padding" align="center">
         <rating ng-model="rating.rate" max="rating.max"></rating>
       </div>
+      <!-- <div class="col">Files Attached: {{noOfAttachments}}</div> -->
+      <div align="center" class="padding-bottom" ng-hide="isTranslateOpen">
+        <button class="button icon button-positive ion-clipboard" ng-click="paste()"></button>
+        <button class="button icon button-positive ion-paperclip" ng-click="attachImg()"></button>
+        <button class="button icon button-positive ion-ios-mic" ng-click="record()"></button>
+        <button class="button icon button-positive ion-speakerphone" ng-click="speakText()"></button>
+        <button class="button icon button-positive ion-archive ion-chatbubbles" ng-click="isTranslateOpen = !isTranslateOpen"></button>
 
-      <div class="col">Files Attached: {{noOfAttachments}}</div>
-      <div class="button-bar padding-top">
-      <a class="button button-positive"  ng-click="markdown()">Markdown</a>
-        <a class="button button-positive" ng-click="attachImg()">Attach Image</a>
+
+      </div>
+      <div ng-show="isTranslateOpen" id="translate">
+        Translate:
+        <label class="item item-input item-select ">
+            <div class="input-label">
+              From:
+            </div>
+          <select ng-model ="translateData.fromLang" ng-options="language.languageName for language in languages track by language.languageCode"></select>
+        </label>
+        <label class="item item-input item-select">
+            <div class="input-label">
+              To:
+            </div>
+            <select ng-model ="translateData.toLang" ng-options="language.languageName for language in languages track by language.languageCode"></select>
+        </label>
+        <div class="padding-top" align="center">
+          <button class="button button-positive" ng-click="translate()">Translate</button>
+          <button class="button button-positive" ng-click="isTranslateOpen = !isTranslateOpen;">Back</button>
+        </div>
+
       </div>
 
-      <div class="button-bar padding-top">
-        <a class="button button-positive" ng-click="record()">Speech to Text</a>
-        <a class="button button-positive" ng-click="speakText()">Text to Speech</a>
-         <a class="button button-positive" ng-click="translate()">Translate</a>
-       </div>
-      <div id="buttonBar"class="button-bar padding-top">
-        <a id="button1" class="button button-positive" ng-click="record()">Speech to Text</a>
-        <a id="button1" class="button button-positive" ng-click="speakText()">Text to Speech</a>
-      </div>
-    <button id="button1" class="button button-block button-positive" ng-click="showPopUp()">Post</button>
-      <button class="button button-block button-positive" ng-click="paste()">Paste Data</button>
-      <button class="button button-block button-positive" ng-click="saveAsDraft()">Save As Draft</button>
+
+
+
 
       <div id="buttonRange" class="item range buttonRange">
               <i class="icon ion-minus" ></i>
@@ -49,6 +61,19 @@
               <i class="icon ion-plus"></i>
       </div>
 
+
     </form>
   </ion-content>
+  <div class="tabs tabs-icon-left tabs-positive">
+    <a class="tab-item active" ng-click="showPopUp()">
+      <i class="icon ion-paper-airplane"></i>
+      Post
+    </a>
+    <a class="tab-item active" ng-click="saveAsDraft()">
+      <i class="icon ion-archive"></i>
+      Save Draft
+    </a>
+
+
+  </div>
 </ion-view>
