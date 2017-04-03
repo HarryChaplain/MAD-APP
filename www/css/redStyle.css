@@ -1,31 +1,41 @@
 
+  .bar.bar-positive{
+    background-color: grey;
+    color: blue;
+  }
 
-.bar.bar-positive{
-  background-color: #ef473a;
-}
+  .textarea{
+    background-color: grey;
+    color: blue;
+  }
 
-.textarea{
-  background-color: #ef473a;
-}
+  /*background colour chaner*/
+  /*.overflow-scroll > .scroll{
+    background-color: #33cd5f ;
+    color: white;
+  }*/
 
-/*background colour chaner*/
-/*.overflow-scroll > .scroll{
-  background-color: #ef473a ;
-  color: white;
-}*/
+  .buttonRange{
+    visibility:hidden;
+  }
 
-.buttonRange{
-  visibility:hidden;
-}
+  .button.button-positive {
+      border-color: transparent;
+      background-color:  grey;
+      color: blue;
+  }
 
-.button.button-positive {
-    border-color: transparent;
-    background-color:  #ef473a;
-    color: #fff;
-}
+  .button {
+      border-color: transparent;
+      background-color:  grey;
+      color: blue;
+  }
 
-.button {
-    border-color: transparent;
-    background-color:  #ef473a;
-    color: #fff;
-}
+  #postSectionTabs{
+    background-color: grey;
+    color: blue;
+  }
+
+  .bar.bar-positive .title {
+      color: blue;
+  }

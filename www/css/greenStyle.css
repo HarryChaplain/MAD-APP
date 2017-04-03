@@ -1,9 +1,11 @@
 .bar.bar-positive{
   background-color: #33cd5f;
+  color:#ef473a;
 }
 
 .textarea{
   background-color: #33cd5f;
+  color: #ef473a;
 }
 
 /*background colour chaner*/
@@ -19,11 +21,20 @@
 .button.button-positive {
     border-color: transparent;
     background-color:  #33cd5f;
-    color: #fff;
+    color: #ef473a;
 }
 
 .button {
     border-color: transparent;
     background-color:  #33cd5f;
-    color: #fff;
+    color: #ef473a;
+}
+
+#postSectionTabs{
+  background-color: #33cd5f;
+  color: #ef473a;
+}
+
+.bar.bar-positive .title {
+    color: red;
 }

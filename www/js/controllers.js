@@ -188,7 +188,7 @@ angular.module('starter.controllers', [])
     });
   }
 
-  
+
 
   $scope.paste = function(){
     var pasteData = Copy.getCopy();
@@ -384,7 +384,7 @@ angular.module('starter.controllers', [])
 
       var pasteData = Copy.getCopy();
       // alert(JSON.stringify(pasteData));
-      alert(pasteData.Poster);
+      // alert(pasteData.Poster);
       var imgURL="https://s3-us-west-1.amazonaws.com/powr/defaults/image-slider2.jpg";//change with your external photo url
       $http({
         url:'https://graph.facebook.com/v2.8/me/photos',

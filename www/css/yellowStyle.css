@@ -1,12 +1,9 @@
-
-
-
 .bar.bar-positive{
-  background-color: #ffc900;
+  background-color: #7DF06E;
 }
 
 .textarea{
-  background-color: #ffc900;
+  background-color: #7DF06E;
 }
 
 /*background colour chaner*/
@@ -21,12 +18,22 @@
 
 .button.button-positive {
     border-color: transparent;
-    background-color:  #ffc900;
-    color: #fff;
+    background-color:  #7DF06E;
+    color: yellow;
 }
 
 .button {
     border-color: transparent;
-    background-color:  #ffc900;
-    color: #fff;
+    background-color:  #7DF06E;
+    color: yellow;
+}
+
+
+
+#postSectionTabs{
+  background-color: #7DF06E;
+  color: yellow;
+}
+.bar.bar-positive .title {
+    color: yellow;
 }
