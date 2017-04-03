@@ -12,5 +12,21 @@
   margin-right: auto;
   display: block;
 }
+
 .slider { height: 100%; text-align: center }
 .scroll { height: 100% }
+
+
+.buttonRange{
+  visibility:hidden;
+}
+ul.rating li {
+  display: inline;
+  border: 0px;
+  background: none;
+  padding: 5px 10px;
+}
+ul.rating li i {
+  font-size: 30px;
+}
+

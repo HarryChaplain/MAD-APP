@@ -10,7 +10,9 @@ angular.module('starter', [
 	'starter.services',
 	'ngCordova',
   	'ngCordovaOauth',
-  	'ngTwitter'
+  	'ngTwitter',
+    'firebase',
+		'ionic.rating'
 ])
 
 .run(function($ionicPlatform) {
@@ -30,8 +32,19 @@ angular.module('starter', [
 })
 
 .config(function($stateProvider, $urlRouterProvider) {
-  $stateProvider
+	// Initialize Firebase
+	var config = {
+      apiKey: "AIzaSyBV5PvXFlyFT-E34swOOX2BYqfaTwjicxI",
+      authDomain: "mad-account-89bc1.firebaseapp.com",
+      databaseURL: "https://mad-account-89bc1.firebaseio.com",
+      storageBucket: "mad-account-89bc1.appspot.com",
+      messagingSenderId: "492442337793"
+    };
+	firebase.initializeApp(config);
+})
 
+.config(function($stateProvider, $urlRouterProvider) {
+$stateProvider
     .state('app', {
     url: '/app',
     abstract: true,
@@ -41,7 +54,8 @@ angular.module('starter', [
 
   .state('app.post', {
     url: '/post',
-    cache: true,
+    //cache: true,
+    cache: false,
     views: {
       'menuContent': {
         templateUrl: 'templates/post.html',
@@ -49,6 +63,7 @@ angular.module('starter', [
       }
     }
   })
+
   .state('app.welcomePage', {
     url: '/welcomePage',
     cache: false,
@@ -59,6 +74,20 @@ angular.module('starter', [
       }
     }
   })
+
+
+  .state('app.drafts', {
+    url: '/drafts',
+    cache: false,
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/drafts.html',
+        controller: 'DraftsCtrl'
+      }
+    }
+  })
+
+
   .state('app.setup', {
       url: '/setup',
       cache: false,
@@ -70,36 +99,36 @@ angular.module('starter', [
       }
     })
 
-		.state('app.themes', {
-	      url: '/themes',
-	      cache: false,
-	      views: {
-	        'menuContent': {
-	          templateUrl: 'templates/themes.html',
-	          controller: 'ThemesCtrl'
-	        }
-	      }
-	    })
-		.state('app.omdb', {
-	      url: '/omdb',
-	      cache: false,
-	      views: {
-	        'menuContent': {
-	          templateUrl: 'templates/omdb.html',
-	          controller: 'omdbCtrl'
-	        }
-	      }
-	    })
-			.state('app.skiddle', {
-		      url: '/skiddle',
-		      cache: false,
-		      views: {
-		        'menuContent': {
-		          templateUrl: 'templates/skiddle.html',
-		          controller: 'skiddleCtrl'
-		        }
-		      }
-		    })
+    .state('app.themes', {
+      url: '/themes',
+      cache: true,
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/themes.html',
+          controller: 'ThemesCtrl'
+        }
+      }
+    })
+    .state('app.omdb', {
+      url: '/omdb',
+      cache: false,
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/omdb.html',
+          controller: 'omdbCtrl'
+        }
+      }
+    })
+    .state('app.skiddle', {
+      url: '/skiddle',
+      cache: false,
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/skiddle.html',
+          controller: 'skiddleCtrl'
+        }
+      }
+    })
 
   .state('app.settings', {
       url: '/settings',
@@ -107,6 +136,16 @@ angular.module('starter', [
         'menuContent': {
           templateUrl: 'templates/settings.html',
           controller: 'SettingsCtrl'
+        }
+      }
+    })
+  .state('app.sendFriendSignUp', {
+      url: '/sendFriendSignUp',
+      cache: false,
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/sendFriendSignUp.html',
+          controller: 'sendFriendSignUpCtrl'
         }
       }
     });

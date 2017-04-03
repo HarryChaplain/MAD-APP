@@ -16,26 +16,62 @@
       <div class="item item-divider">
         Themes:
       </div>
-      <div class="card">
-        <div class="item item-text-wrap" ng-click="setTheme('yellow');">
-          YELLOW
+      <label class="item item-input item-select item-icon-left">
+          <div class="input-label">
+            Colours Scheme
+          </div>
+          <select ng-model="optionSelected" ng-change="selectUpdated(optionSelected)">
+              <option value="default" selected>Default</option>
+              <option value="yellow">Yellow</option>
+              <option value="green">Green</option>
+              <option value="red">Red</option>
+          </select>
+        </label>
+        <div class="item item-divider">
+          Assitive Help
         </div>
-      </div>
-      <div class="card">
-        <div class="item item-text-wrap" ng-click="setTheme('red');">
-          RED
-        </div>
-      </div>
-      <div class="card">
-        <div class="item item-text-wrap" ng-click="setTheme('green');">
-          GREEN
-        </div>
-      </div>
-      <div class="card">
-        <div class="item item-text-wrap" ng-click="setTheme('default');">
-          DEFAULT
-        </div>
-      </div>
+        <li class="item item-toggle item-icon-left">
+          BIG BUTTONS
+          <i class="icon ion-edit"></i>
+            <label class="toggle toggle-dark">
+              <input type="checkbox" ng-model="trueFalseBigButtons" ng-change="checkBigButtons(trueFalseBigButtons);">
+              <div class="track">
+                <div class="handle"></div>
+              </div>
+            </label>
+        </li>
+        <li class="item item-toggle item-icon-left">
+          BOLD FONT
+          <i class="icon ion-edit"></i>
+            <label class="toggle toggle-light">
+              <input type="checkbox" ng-model="trueFalseBoldFont" ng-change="checkBoldFont(trueFalseBoldFont);">
+              <div class="track">
+                <div class="handle"></div>
+              </div>
+            </label>
+        </li>
+
+      <!---
+      <li class="item item-toggle item-icon-left">
+        YELLOW
+        <i class="icon ion-edit"></i>
+          <label class="toggle toggle-energized">
+            <input type="checkbox" ng-model="trueFalseYellow" ng-change="checkYellow(trueFalseYellow);">
+            <div class="track">
+              <div class="handle"></div>
+            </div>
+          </label>
+      </li>
+      <li class="item item-toggle item-icon-left">
+        BIG BUTTONS
+        <i class="icon ion-edit"></i>
+          <label class="toggle toggle-dark">
+            <input type="checkbox" ng-model="trueFalseBigButtons" ng-change="checkBigButtons(trueFalseBigButtons);">
+            <div class="track">
+              <div class="handle"></div>
+            </div>
+          </label>
+      </li> -->
     </ul>
   </ion-content>
 </ion-view>

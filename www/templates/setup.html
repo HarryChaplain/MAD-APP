@@ -48,7 +48,18 @@
           Logout
         </button>
       </li>
-
+      
+      <!-- SendFriend Login Setup -->
+      <li class="item item-button-right item-icon-left">
+        Send Friend <p ng-hide="sendFriendUID === '' || sendFriendUID === null">UID: {{sendFriendUID.firebaseUser.uid}}</p>
+        <i class="icon ion-paper-airplane"></i>
+        <button class="button button-positive" ng-show="sendFriendUID === '' || sendFriendUID === null" ng-click="loginToSendFriend()">
+          Login
+        </button>
+        <button class="button button-assertive" ng-hide="sendFriendUID === '' || sendFriendUID === null" ng-click="logoutOfSendFriend()">
+          Logout
+        </button>
+      </li>
 
 	 </ul>
   </ion-content>

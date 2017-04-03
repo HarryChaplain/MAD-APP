@@ -5,6 +5,7 @@ angular.module('starter.services', [])
 
     copy.setCopy = function(reviewObject){
       copy = reviewObject;
+      console.log(copy);
     }
 
     copy.getCopy = function(){
@@ -14,3 +15,15 @@ angular.module('starter.services', [])
     return copy;
   }
 )
+
+.service("Draft", function ($rootScope) {
+  var draftId = "";
+  return {
+      getDraftId: function () {
+          return draftId;
+      },
+      setDraftId: function(value) {
+          draftId = value;
+      }
+  };
+});

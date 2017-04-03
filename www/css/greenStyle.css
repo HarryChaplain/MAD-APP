@@ -6,8 +6,24 @@
   background-color: #33cd5f;
 }
 
-
-.overflow-scroll > .scroll{
+/*background colour chaner*/
+/*.overflow-scroll > .scroll{
   background-color: #33cd5f ;
   color: white;
+}*/
+
+.buttonRange{
+  visibility:hidden;
+}
+
+.button.button-positive {
+    border-color: transparent;
+    background-color:  #33cd5f;
+    color: #fff;
+}
+
+.button {
+    border-color: transparent;
+    background-color:  #33cd5f;
+    color: #fff;
 }

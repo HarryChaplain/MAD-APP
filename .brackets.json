@@ -1,5 +1,12 @@
 {
     "jscodehints.detectedExclusions": [
-        "/Users/SaneetBhella/Documents/Mobile Apps/MAD-APP/platforms/android/assets/www/lib/ng-cordova-oauth/src/oauth.windowslive.js"
+        "/Users/SaneetBhella/Documents/Mobile Apps/MAD-APP/platforms/android/assets/www/lib/ng-cordova-oauth/src/oauth.windowslive.js",
+        "/Users/SaneetBhella/Documents/Mobile Apps/MAD-APP/platforms/android/assets/www/lib/ng-cordova-oauth/src/oauth.untappd.js",
+        "/Users/SaneetBhella/Documents/Mobile Apps/MAD-APP/platforms/android/assets/www/lib/ng-cordova-oauth/src/oauth.venmo.js",
+        "/Users/SaneetBhella/Documents/Mobile Apps/MAD-APP/platforms/android/assets/www/lib/ng-cordova-oauth/src/oauth.vkontakte.js",
+        "/Users/SaneetBhella/Documents/Mobile Apps/MAD-APP/platforms/android/assets/www/lib/ng-cordova-oauth/src/oauth.weibo.js",
+        "/Users/SaneetBhella/Documents/Mobile Apps/MAD-APP/platforms/android/assets/www/lib/ng-cordova-oauth/src/oauth.withings.js",
+        "/Users/SaneetBhella/Documents/Mobile Apps/MAD-APP/platforms/android/assets/www/lib/ng-cordova-oauth/src/oauth.xing.js",
+        "/Users/SaneetBhella/Documents/Mobile Apps/MAD-APP/platforms/android/assets/www/lib/ng-cordova-oauth/src/oauth.yahoo.js"
     ]
 }
