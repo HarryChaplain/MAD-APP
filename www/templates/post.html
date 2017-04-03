@@ -12,13 +12,13 @@
       </label>
       <label class="item item-input post-textBox">
 
-          <textarea id="sourceTA"  type="text" rows="10" cols="5" placeholder="Review" ng-model="postData.body"></textarea>
+          <textarea id="sourceTA"  type="text" rows="10" cols="5" placeholder="Review" ng-model="postData.body" ng-show="postData.convertedBody == ''"></textarea>
+          <textarea id="sourceTA"  type="text" rows="10" cols="5" placeholder="Review" ng-model="postData.convertedBody" ng-show="postData.convertedBody != ''" ng-focus="hideConvertedBody()"></textarea>
+
       </label><select ng-model ="translateData.fromLang" ng-options="language.languageName for language in languages track by language.languageCode"></select>
         <select ng-model ="translateData.toLang" ng-options="language.languageName for language in languages track by language.languageCode"></select>
 
-{{toLang}}
-
-          <textarea type="text" rows="10" cols="5" placeholder="Review" ng-model="postData.body"></textarea>
+        {{toLang}}
       </label>
       <div class="padding" align="center">
         <rating ng-model="rating.rate" max="rating.max"></rating>
@@ -34,7 +34,7 @@
         <a class="button button-positive" ng-click="record()">Speech to Text</a>
         <a class="button button-positive" ng-click="speakText()">Text to Speech</a>
          <a class="button button-positive" ng-click="translate()">Translate</a>
-
+       </div>
       <div id="buttonBar"class="button-bar padding-top">
         <a id="button1" class="button button-positive" ng-click="record()">Speech to Text</a>
         <a id="button1" class="button button-positive" ng-click="speakText()">Text to Speech</a>

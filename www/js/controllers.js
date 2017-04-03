@@ -159,7 +159,9 @@ angular.module('starter.controllers', [])
   $scope.postData = {
     to: "",
     subject: "",
+    fbBody: "",
     body: "",
+    convertedBody: "",
     attachments: [],
     isHtml: true
   };
@@ -203,11 +205,16 @@ angular.module('starter.controllers', [])
   }
 
   $scope.markdown = function() {
-    var text = document.getElementById('sourceTA').value,
-      target = document.getElementById('sourceTA'),
-      converter = new showdown.Converter(),
+      $scope.postData.fbBody = $scope.postData.body;
+      var text = $scope.postData.body;
+      converter = new showdown.Converter();
       html = converter.makeHtml(text);
-      $scope.postData.body = html;
+
+      $scope.postData.convertedBody = html;
+  };
+
+  $scope.hideConvertedBody = function() {
+    $scope.postData.convertedBody = "";
   };
 
 
@@ -274,21 +281,28 @@ angular.module('starter.controllers', [])
   }
   //posts to social media and email
   $scope.post = function() {
+    //$scope.postData.body = $scope.postData.fbBody;
+    $scope.markdown();
     switch($scope.rating.rate){
       case 1:
         $scope.postData.body = $scope.postData.body + "<br><br> I rate this 1 star"
+        $scope.postData.fbBody = $scope.postData.fbBody + "\n I rate this 1 star"
         break;
       case 2:
         $scope.postData.body = $scope.postData.body + "<br><br> I rate this 2 stars"
+        $scope.postData.fbBody = $scope.postData.fbBody + "\n I rate this 2 star"
         break;
       case 3:
         $scope.postData.body = $scope.postData.body + "<br><br> I rate this 3 stars"
+        $scope.postData.fbBody = $scope.postData.fbBody + "\n I rate this 3 star"
         break;
       case 4:
         $scope.postData.body = $scope.postData.body + "<br><br> I rate this 4 stars"
+        $scope.postData.fbBody = $scope.postData.fbBody + "\n I rate this 4 star"
         break;
       case 5:
         $scope.postData.body = $scope.postData.body + "<br><br> I rate this 5 stars"
+        $scope.postData.fbBody = $scope.postData.fbBody + "\n I rate this 5 star"
         break;
     }
 
@@ -350,7 +364,7 @@ angular.module('starter.controllers', [])
 
   $scope.postToFacebook = function(){
     var title = $scope.postData.title;
-    var message = $scope.postData.body;
+    var message = $scope.postData.fbBody;
     var post = title+", "+message;
     if($scope.postData.attachments.length == 0){
       $http({
@@ -367,7 +381,7 @@ angular.module('starter.controllers', [])
         $scope.noOfAttachments = 0;
       },
       function(response) { // optional
-        alert(response);
+        //alert(response);
       });
     }else{
 
