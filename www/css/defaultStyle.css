@@ -13,6 +13,10 @@
   display: block;
 }
 
+.slider { height: 100%; text-align: center }
+.scroll { height: 100% }
+
+
 .buttonRange{
   visibility:hidden;
 }
@@ -25,3 +29,4 @@ ul.rating li {
 ul.rating li i {
   font-size: 30px;
 }
+

@@ -202,6 +202,15 @@ angular.module('starter.controllers', [])
 
   }
 
+  $scope.markdown = function() {
+    var text = document.getElementById('sourceTA').value,
+      target = document.getElementById('sourceTA'),
+      converter = new showdown.Converter(),
+      html = converter.makeHtml(text);
+      $scope.postData.body = html;
+  };
+
+
   function getBase64Image(img) {
     var canvas = document.createElement("canvas");
 
@@ -246,7 +255,23 @@ angular.module('starter.controllers', [])
      };
      recognition.start();
   };
-
+  $scope.languages = [];
+  $scope.translateData = {toLang: {languageCode: "en", languageName: "English"}, fromLang:{languageCode: "en", languageName: "English"}};
+  $http.get("http://transltr.org/api/getlanguagesfortranslate", {headers: {"Accept": "application/json"}})
+  .then(function(response){
+    $scope.languages = response.data;
+  });
+  $scope.translate = function(){
+    console.log($scope.translateData);
+    $http.post("http://www.transltr.org/api/translate", {text: $scope.postData.body, to: $scope.translateData.toLang.languageCode, from: $scope.translateData.fromLang.languageCode}, {headers: {'Content-Type': 'application/json', 'Accept': 'application/json'} })
+        .then(function (response) {
+          console.log(response);
+            $scope.postData.body = response.data.translationText;
+            var temp = $scope.translateData.fromLang;
+            $scope.translateData.fromLang=$scope.translateData.toLang;
+            $scope.translateData.toLang = temp;
+        });
+  }
   //posts to social media and email
   $scope.post = function() {
     switch($scope.rating.rate){
@@ -826,7 +851,8 @@ angular.module('starter.controllers', [])
 
 .controller('SettingsCtrl', function($scope) {
 })
-
+.controller('welcomePageCtrl', function($scope) {
+})
 .controller('omdbCtrl', function($scope, $http, Copy, $state){
     $scope.movieData = {
       title: ""

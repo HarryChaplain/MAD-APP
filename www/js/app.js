@@ -64,6 +64,18 @@ $stateProvider
     }
   })
 
+  .state('app.welcomePage', {
+    url: '/welcomePage',
+    cache: false,
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/welcomePage.html',
+        controller: 'welcomePageCtrl'
+      }
+    }
+  })
+
+
   .state('app.drafts', {
     url: '/drafts',
     cache: false,
@@ -74,6 +86,7 @@ $stateProvider
       }
     }
   })
+
 
   .state('app.setup', {
       url: '/setup',
