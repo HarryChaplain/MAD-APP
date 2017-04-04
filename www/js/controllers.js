@@ -162,12 +162,13 @@ angular.module('starter.controllers', [])
     fbBody: "",
     body: "",
     convertedBody: "",
+    rating: "",
     attachments: [],
-    isHtml: true,
-    rating: ""
-  };
+    isHtml: true
 
-  $scope.noOfAttachments = 0;
+  };
+  $scope.attNo = $scope.postData.attachments.length;
+
   $scope.attachImg = function() {
 
     var options = {
@@ -183,7 +184,6 @@ angular.module('starter.controllers', [])
 
       $scope.postData.attachments.push("base64:img.jpg//" + imageData) ;
       console.log("THIS IS IMAGE"+ $scope.postData.attachments[0]);
-      $scope.noOfAttachments++;
     }, function(error) {
       console.error(error);
     });
@@ -197,12 +197,14 @@ angular.module('starter.controllers', [])
     if(pasteData.eventname){//paste for skiddle event
       $scope.postData.title = "My Review Of: " + pasteData.eventname;
       $scope.postData.body =  pasteData.description + "\n\n" + "Venue: " + pasteData.venue.name;
-      getBase64Image(pasteData.largeimageurl);
+      $scope.imgURL = pasteData.largeimageurl;
+      getBase64Image($scope.imgURL);
+
     }else{//paste for omdb movie
       $scope.postData.title = "My Review Of: " + pasteData.Title;
       $scope.postData.body =  pasteData.Plot + "\n\n" + "Released: " + pasteData.Released;
-
-      getBase64Image(pasteData.Poster);
+      $scope.imgURL = pasteData.Poster;
+      getBase64Image($scope.imgURL);
     }
 
   }
@@ -228,7 +230,8 @@ angular.module('starter.controllers', [])
       var fullQuality = canvas.toDataURL('image/jpeg', 1.0);
       var res = fullQuality.replace("data:image/jpeg;base64,","base64:img.jpg//" )
       $scope.postData.attachments.push(res);
-      $scope.noOfAttachments++;
+      $scope.$apply();
+
     };
     image.setAttribute('crossOrigin', 'anonymous');
     image.src = img;
@@ -316,7 +319,10 @@ angular.module('starter.controllers', [])
 
 
     if ($scope.email.enabled === true){
-      cordova.plugins.email.open($scope.postData, function () {
+      $scope.email = $scope.postData;
+      $scope.email.body = $scope.email.body + "\n\n" + $scope.email.rating;
+
+      cordova.plugins.email.open($scope.email, function () {
         console.log('email view dismissed');
         $scope.postData.title = "";
         $scope.postData.body = "";
@@ -360,7 +366,7 @@ angular.module('starter.controllers', [])
     var title = $scope.postData.title + "\n\n";
     var message = $scope.postData.fbBody + "\n\n" + $scope.postData.rating;
     var post = title+message;
-    if($scope.postData.attachments.length == 0){
+    if(!$scope.imgURL){
       $http({
         url:'https://graph.facebook.com/v2.8/me/feed?method=post&message='+encodeURIComponent(post),
         method: "POST",
@@ -388,7 +394,7 @@ angular.module('starter.controllers', [])
         method: "POST",
         data:{
           access_token: $scope.facebookToken.config.params.access_token,
-          url: pasteData.Poster,
+          url: $scope.imgURL,
           caption: post
         }
       }).then(function(response) {
@@ -535,7 +541,10 @@ angular.module('starter.controllers', [])
     $twitterApi.configure(clientId, clientSecret, $scope.twitterToken);
     var tweet = "Hey, I posted a new review! Link to view is attached. " + shareUrl;
     $twitterApi.postStatusUpdate(tweet).then(function(result) {
-      console.log("tweeted");
+      var alertPopup = $ionicPopup.alert({
+        title: "Success!",
+        template: "Review tweeted."
+      });
       $scope.postData = {
         to: "",
         subject: "",

@@ -27,7 +27,10 @@
         <button class="button icon button-positive ion-ios-mic" ng-click="record()"></button>
         <button class="button icon button-positive ion-speakerphone" ng-click="speakText()"></button>
         <button class="button icon button-positive ion-archive ion-chatbubbles" ng-click="isTranslateOpen = !isTranslateOpen"></button>
-
+        <div>
+          <h5>Images Attached: {{postData.attachments.length}}</h5>
+          <button ng-show="postData.attachments.length > 0" class="button button-positive" ng-click="postData.attachments = []; imgURL = '';">Remove Images</button>
+        </div>
 
       </div>
       <div ng-show="isTranslateOpen" id="translate">
