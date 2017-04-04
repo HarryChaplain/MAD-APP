@@ -163,7 +163,8 @@ angular.module('starter.controllers', [])
     body: "",
     convertedBody: "",
     attachments: [],
-    isHtml: true
+    isHtml: true,
+    rating: ""
   };
 
   $scope.noOfAttachments = 0;
@@ -279,29 +280,25 @@ angular.module('starter.controllers', [])
   //posts to social media and email
   $scope.post = function() {
     $scope.postData.fbBody = $scope.postData.body;
-    $scope.markdown();
+
     switch($scope.rating.rate){
       case 1:
-        $scope.postData.body = $scope.postData.body + "<br> I rate this 1 star"
-        $scope.postData.fbBody = $scope.postData.fbBody + "\n\n I rate this 1 star"
+        $scope.postData.rating = "My Rating: *"
         break;
       case 2:
-        $scope.postData.body = $scope.postData.body + "<br> I rate this 2 stars"
-        $scope.postData.fbBody = $scope.postData.fbBody + "\n\n I rate this 2 star"
+        $scope.postData.rating = "My Rating: * *"
         break;
       case 3:
-        $scope.postData.body = $scope.postData.body + "<br> I rate this 3 stars"
-        $scope.postData.fbBody = $scope.postData.fbBody + "\n\n I rate this 3 star"
+        $scope.postData.rating = "My Rating: * * *"
         break;
       case 4:
-        $scope.postData.body = $scope.postData.body + "<br> I rate this 4 stars"
-        $scope.postData.fbBody = $scope.postData.fbBody + "\n\n I rate this 4 star"
+        $scope.postData.rating = "My Rating: * * * *"
         break;
       case 5:
-        $scope.postData.body = $scope.postData.body + "<br> I rate this 5 stars"
-        $scope.postData.fbBody = $scope.postData.fbBody + "\n\n I rate this 5 star"
+        $scope.postData.rating = "My Rating: * * * * *"
         break;
     }
+    $scope.markdown();
 
 
     for(i=0;i<$scope.postList.length;i++) {
@@ -360,9 +357,9 @@ angular.module('starter.controllers', [])
 
 
   $scope.postToFacebook = function(){
-    var title = $scope.postData.title;
-    var message = $scope.postData.fbBody;
-    var post = title+", "+message;
+    var title = $scope.postData.title + "\n\n";
+    var message = $scope.postData.fbBody + "\n\n" + $scope.postData.rating;
+    var post = title+message;
     if($scope.postData.attachments.length == 0){
       $http({
         url:'https://graph.facebook.com/v2.8/me/feed?method=post&message='+encodeURIComponent(post),
@@ -433,7 +430,7 @@ angular.module('starter.controllers', [])
     "<h1>" + $scope.postData.title + "</h1>" +
     "</header>" +
     "<section style='text-align: center; margin-top: 15px; font-family: sans-serif; font-size: 18px;'>" +
-    "<p>" + $scope.postData.body + "</p>" +
+    "<p>" + $scope.postData.body + $scope.postData.rating + "</p>" +
     "</section>";
 
     //if any image attachments, add this in
@@ -539,6 +536,15 @@ angular.module('starter.controllers', [])
     var tweet = "Hey, I posted a new review! Link to view is attached. " + shareUrl;
     $twitterApi.postStatusUpdate(tweet).then(function(result) {
       console.log("tweeted");
+      $scope.postData = {
+        to: "",
+        subject: "",
+        fbBody: "",
+        body: "",
+        convertedBody: "",
+        attachments: [],
+        isHtml: true
+      };
     });
   };
 
